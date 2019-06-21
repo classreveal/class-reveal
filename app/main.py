@@ -30,6 +30,7 @@ def home():
 def view(user_id):
     user = database.get_user(user_id)
     return str(user)
+    
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() == "pdf"
@@ -50,8 +51,7 @@ def upload_file():
 
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-
+                text = pdf.read_pdf(file)
                 return redirect(url_for("home"))
 
         return render_template("upload.html")
