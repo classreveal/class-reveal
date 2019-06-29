@@ -1,118 +1,213 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-        <title>ClassReveal</title>
-        <meta name="description" content="The easiest way to share schedules and find out who's in your classes! Made for West Windsor-Plainsboro (WW-P) high school students.">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <style>
-            html,
-            body {
-                height: 100%;
-                background-color: #333;
-            }
-        
-            body {
-                display: -ms-flexbox;
-                display: flex;
-                color: #fff;
-                text-align: center;
-            }
 
-            .cover-container {
-                max-width: 42em;
-            }
-        
-            .masthead {
-                margin-bottom: 2rem;
-            }
-        
-            .masthead-brand {
-                margin-bottom: 0;
-            }
-        
-            .nav-masthead .nav-link {
-                padding: .25rem 0;
-                font-weight: 700;
-                color: rgba(255, 255, 255, .5);
-                background-color: transparent;
-                border-bottom: .25rem solid transparent;
-            }
-        
-            .nav-masthead .nav-link:hover,
-            .nav-masthead .nav-link:focus {
-                border-bottom-color: rgba(255, 255, 255, .25);
-            }
-        
-            .nav-masthead .nav-link+.nav-link {
-                margin-left: 1rem;
-            }
-        
-            .nav-masthead .active {
-                color: #fff;
-                border-bottom-color: #fff;
-            }
-        
-            @media (min-width: 48em) {
-                .masthead-brand {
-                    float: left;
-                }
-        
-                .nav-masthead {
-                    float: right;
-                }
-            }
-        
-            .cover {
-                padding: 0 1.5rem;
-            }
-        
-            .cover .btn-lg {
-                padding: .75rem 1.25rem;
-            }
-        
-            .mastfoot {
-                color: rgba(255, 255, 255, .5);
-            }
-        </style>
-    </head>
-    <body>
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-            <header class="masthead mb-auto">
-                <div class="inner">
-                    <h3 class="masthead-brand">ClassReveal</h3>
-                </div>
-            </header>
-        
-            <main role="main" class="inner cover">
-                <h2 class="cover-heading">Let's make schedule sharing easier.</h2>
-                <h3 class="lead">Made for WW-P students, by WW-P students.</h3>
+<head>
+    <!-- Metadata -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ClassReveal | Home</title>
+    <link rel="apple-touch-icon" sizes="76x76" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <meta property="og:image" content="https://i.imgur.com/B5IfH4l.png" />
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="application-name" content="Class Reveal" />
+    <meta name="msapplication-TileColor" content="#ffeb3b" />
+    <meta name="theme-color" content="#ffeb3b">
+    <meta name="description"
+        content="Class Reveal is a webapp used to share your schedule with others in your school. When schedules come out, use Class Reveal to enter your schedule information and find out who's in your classes! Made for West Windsor-Plainsboro (WW-P) students.">
+
+    <!-- CSS -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous"> -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/materialize.min.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/style.css') }}" type="text/css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <!--[if lte IE 8]>
+	<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
+	<![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    <!--<![endif]-->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <!--[if lte IE 8]>
+	<link rel="stylesheet" href="css/layouts/marketing-old-ie.css">
+	<![endif]-->
+    <!--[if gt IE 8]><!-->
+    <!--<![endif]-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+        integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+    <!-- FIREBASE SETUP CODE -->
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyArtrcZzDp_OEquRaiwxPQ9K--Wx0fw0nU",
+            authDomain: "classreveal-3146f.firebaseapp.com",
+            databaseURL: "https://classreveal-3146f.firebaseio.com",
+            projectId: "classreveal-3146f",
+            storageBucket: "classreveal-3146f.appspot.com",
+            messagingSenderId: "691736012118"
+        };
+        firebase.initializeApp(config);
+    </script>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
+</head>
+
+<body class="classreveal_site">
+
+    <!-- NAVBAR -->
+    <div class="navbar-fixed">
+        <nav class="yellow" id="navbar">
+            <a href="#" class="brand-logo">
+                <img class="responsive-img" src="{{ url_for('static', filename='img/navbarlogo.png') }}">
+            </a>
+            <a href="index.html" class="brand-logo right" style="font-size:12px"></a>
+            <a href="#" data-activates="nav-mobile" class="button-collapse">
+                <i class="material-icons icon-dark">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li class="navlinks active">
+                    <a href="#">HOME</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <ul id="nav-mobile" class="side-nav" style="transform: translateX(-100%);">
+        <li class="navlinks active">
+            <a href="#">HOME</a>
+        </li>
+    </ul>
+
+    <div id="container"
+        style="background: url(static/img/indexbackground.png); background-repeat: no-repeat; background-size:cover;	 height:100vh;">
+        <div class="container">
+            <div>
+
+                <br><br>
+
+                <h1 class="header center" style="font-family: Raleway,serif; font-weight: 900;">
+                    <span>Let's make schedule sharing easier.</span>
+                </h1>
+                <h4 class="header center" style="font-family: Raleway,serif; font-weight: 300;">
+                    <span class="custom-gray-text">Made for WW-P students, by WW-P students.</span>
+                </h4>
+
                 <br>
-                <p class="lead">
-                    <a class="btn btn-light btn-lg" href="{{ url_for('google_auth.login') }}">
-                        <img width="20px" alt="Google &quot;G&quot; Logo" src="{{ url_for('static', filename='img/google_logo.png') }}">
-                        <span class="pull-right text-primary">Login with Google</span>
-                    </a>
-                </p>
-                <p class="lead">To verify that you are a WW-P student, you must sign in with your <code>wwprsd.org</code> email.</p>
-            </main>
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <div class="alert alert-{{category}}" role="alert">
-                    {{ message }}
+                <div style="text-align: center;">
+                    <div id="google_signindiv">
+                        <a class="btn-large waves-effect white darken-4 center"
+                            href="{{ url_for('google_auth.login') }}">
+                            <img class="left" width="20px" alt="Google &quot;G&quot; Logo"
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+                                style="margin-top: 17px;" />
+                            <span class="black-text"
+                                style="text-transform: none; font-size: 16px;">&nbsp;&nbsp;&nbsp;Sign in with
+                                Google</span>
+                        </a>
+                    </div>
+                    <br>
                 </div>
-                {% endfor %}
-            {% endif %}
-            {% endwith %}
-
-            <footer class="mastfoot mt-auto">
-                <div class="inner">
-                    <p>Made by Daniel Wang and Rahul Shah</p>
-                </div>
-            </footer>
+                <h6 class="header center">
+                    <strong>You must use your wwprsd.org account.</strong>
+                </h6>
+            </div>
         </div>
-    </body>
+
+    </div>
+    <div id="toast">
+        <div id="toast_img_holder">
+            <i id="toast_img_icon" className="fa"></i>
+        </div>
+        <div id="toast_desc"></div>
+    </div>
+
+    <footer class="page-footer white">
+        <div class="container">
+
+            <span class="header center"
+                style="font-family: Roboto, sans-serif; font-weight: 500; font-size: 20px;">FAQ</span>
+
+            <ul class="collapsible z-depth-0" data-collapsible="expandable" style="border-right: 0; border-left: 0;">
+
+                <li>
+                    <div class="collapsible-header truncate">
+                        <span>
+                            <i class="material-icons icon-dark">arrow_drop_down</i>What's Class Reveal?
+                        </span>
+                    </div>
+                    <div class="collapsible-body">
+                        <p>
+                            Class Reveal is a webapp used to share your schedule with others in your
+                            school. When schedules come out on <b>August 29 at 3PM</b>, come back to this
+                            site to enter your schedule information and find out who's in your classes!
+                        </p>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="collapsible-header truncate">
+                        <span>
+                            <i class="material-icons icon-dark">arrow_drop_down</i>Why a website this year?
+                        </span>
+                    </div>
+                    <div class="collapsible-body">
+                        <p>
+                            Mobile apps are not as accessible as an online, mobile-compatible website, not
+                            to mention the hefty developer license costs. This year, we are only using
+                            classreveal.com <b>(the iOS and Android apps will not work anymore)</b> in
+                            order to reach all students.
+                        </p>
+                    </div>
+                </li>
+
+            </ul>
+
+            <div class="row">
+                <span>By using Class Reveal, you acknowledge that anyone with a wwprsd.org Google account can see the
+                    classes in which you are enrolled. We do not support non WW-P schools because of security issues.
+                    This year, we are required to verify that ClassReveal users are actual students, which is why you
+                    have to sign in using Google. We cannot verify students from other school districts, so we're
+                    limited to WW-P. Sorry for the inconvenience.</span>
+            </div>
+        </div>
+
+        <div class="footer-copyright">
+            <div class="container">
+                <a class="black-text">&copy;&nbsp;2018 Class Reveal.</a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var menu = $('.menu');
+            var target = $('#' + menu.attr("data-target"));
+            menu.pushpin({});
+        });
+
+        $(".button-collapse").sideNav();
+
+        $(document).ready(function () {
+            $('.parallax').parallax();
+        });
+
+        // Is scrollspy needed on a one-navbar page?
+        $(document).ready(function () {
+            $('.scrollspy').scrollSpy();
+        });
+    </script>
+    <script src="js/main.js"></script>
+    <script src="js/common.js"></script>
+
+</body>
+
 </html>

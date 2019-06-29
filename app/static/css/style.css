@@ -1,0 +1,71 @@
+nav ul li a{
+      color: black;
+      font-family: Ubuntu;
+  }
+  
+  a.active {
+    background-color: whitesmoke;
+  }
+
+  nav {
+    padding-left: 10%;
+    padding-right:10%;
+  }
+
+  i.icon-dark {
+      color: #424242;
+
+  }
+  .parallax-container {
+      height: 300px;
+    }
+
+    #right li.active a {
+      border-top: 3px solid #333;
+      color: #333;
+  }
+
+  #sidenav-overlay {left: 300px;}
+
+  .hr-theme-slash-2 {
+    display: flex;
+   }
+   .hr-line {
+      width: 100%;
+      position: relative;
+      margin: 15px;
+      border-bottom: 2px solid #000;
+   }
+    .hr-icon {
+      position: relative;
+  
+    }
+  .header-unit {
+      height: 150px;
+      border: 2px solid #000;
+      border-right:none;
+      border-left: none;
+      position: relative;
+      padding: 20px;
+  }
+
+  .video-container {
+    height:100vh;
+    position: relative;
+  }
+  video {
+    height: auto;
+    vertical-align: middle;
+    width: 100%;
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    min-width: 100%; 
+    min-height: 100%; 
+    width: auto; 
+
+    z-index: -1000; 
+    overflow: hidden;
+  }
