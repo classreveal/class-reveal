@@ -5,7 +5,6 @@ client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client.class_reveal
 collection = db.users
 
-
 def add_user(user_id, name, classes):
     post = {
         "user_id": int(user_id),
