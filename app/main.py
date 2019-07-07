@@ -26,7 +26,9 @@ def home():
         flash("You have to be a student at WW-P to use ClassReveal", "danger")
         return redirect(url_for("home"))
 
-    return render_template("view.html", user_info=user_info)
+    schedule = database.get_user(user_info["id"])
+
+    return render_template("view.html", user_info=user_info, schedule=schedule)
 
 @app.route("/logout")
 def logout():
@@ -51,26 +53,36 @@ def allowed_file(filename):
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload_file():
-    if google.authorized:
-        if request.method == "POST":
-            if "file" not in request.files:
-                flash("No file part", "danger")
-                return redirect(request.url)
-
-            file = request.files["file"]
-
-            if file.filename == "":
-                flash("No selected file", "danger")
-                return redirect(request.url)
-
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                text = pdf.read_pdf(file)
-                return redirect(url_for("home"))
-
-        return render_template("upload.html")
-    else:
+    if not google.authorized:
         return redirect(url_for("home"))
+        
+    if request.method == "POST":
+        if "file" not in request.files:
+            flash("No file part", "danger")
+            return redirect(url_for("upload_file"))
+
+        file = request.files["file"]
+
+        if file.filename == "":
+            flash("No selected file", "danger")
+            return redirect(url_for("upload_file"))
+
+        if not (allowed_file(file.filename)):
+            flash("Only PDF files are allowed", "danger")
+            return redirect(url_for("upload_file"))
+
+        try:
+            text = pdf.read_pdf(file)
+            schedule = pdf.parse_pdf(text)
+            user_info = google.get("/oauth2/v1/userinfo").json()
+            database.add_user(user_info["id"], user_info["name"], schedule)
+            return redirect(url_for("home"))
+        except Exception as e:
+            flash("Something went wrong", "danger")
+            return redirect(url_for("upload_file"))
+
+    return render_template("upload.html")
+        
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

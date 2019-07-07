@@ -92,6 +92,7 @@
         
             <main role="main" class="inner cover">
                 <h3>Hello, {{ user_info["name"] }}</h3>
+                <br>
 
                 <table class="table text-light">
                     <thead>
@@ -102,51 +103,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">6</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">7</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">8</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                        </tr>
+                        {% for course in schedule['schedule'].values() %}
+                            <tr>
+                                <th scope="row">{{ loop.index }}</th>
+                                <td>{{ course['course_name'] }}</td>
+                                <td>{{ course['teacher_name'] }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </main>
 
-            <p class="lead">Your share link: <code><a href="http://127.0.0.1/view/{{ user_info['id'] }}">http://127.0.0.1/view/{{ user_info['id'] }}</a></code></p>
+            <p class="lead">Your share link: <code><a href="{{ url_for('view', user_id=user_info['id']) }}">{{ url_for('view', user_id=user_info['id']) }}</a></code></p>
 
             <footer class="mastfoot mt-auto">
                 <div class="inner">
