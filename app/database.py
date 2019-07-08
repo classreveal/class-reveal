@@ -2,7 +2,7 @@ import pymongo
 import random
 import json
 
-client = pymongo.MongoClient("mongodb://localhost:27017/")
+client = pymongo.MongoClient("mongodb://mongo:27017/")
 db = client.class_reveal
 collection = db.users
 
