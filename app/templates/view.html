@@ -84,14 +84,20 @@
                     <h3 class="masthead-brand">ClassReveal</h3>
                     <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link active" href="{{ url_for('home') }}">Home</a>
-                        <a class="nav-link" href="{{ url_for('upload_file') }}">Upload</a>
+                        {% if user_id %}
+                        <a class="nav-link" href="{{ url_for('upload_schedule') }}">Upload</a>
                         <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
+                        {% endif %}
                     </nav>
                 </div>
             </header>
         
             <main role="main" class="inner cover">
-                <h3>Hello, {{ user_info["name"] }}</h3>
+                {% if user_id %}
+                <h3>Hello, {{ name }}</h3>
+                {% else %}
+                <h3>{{ name }}'s Schedule</h3>
+                {% endif %}
                 <br>
 
                 <table class="table text-light">
@@ -103,19 +109,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for course in schedule['schedule'].values() %}
+                        {% for course in schedule.values() %}
                             <tr>
-                                <th scope="row">{{ loop.index }}</th>
-                                <td>{{ course['course_name'] }}</td>
-                                <td>{{ course['teacher_name'] }}</td>
+                                <th scope="row">{{ course["period"] }}</th>
+                                <td>{{ course["course_name"] }}</td>
+                                <td>{{ course["teacher_name"] }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </main>
-
-            <p class="lead">Your share link: <code><a href="{{ url_for('view', user_id=user_info['id']) }}">{{ url_for('view', user_id=user_info['id']) }}</a></code></p>
-
+            {% if user_id %}
+            <p class="lead">Your share link: <code><a href="{{ url_for('view', user_id=user_id) }}">{{ url_for('view', user_id=user_id) }}</a></code></p>
+            {% endif %}
             <footer class="mastfoot mt-auto">
                 <div class="inner">
                     <p>Made by Daniel Wang and Rahul Shah</p>

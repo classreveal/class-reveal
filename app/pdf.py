@@ -21,10 +21,15 @@ def parse_pdf(text):
             del schedule[num]
             course = course.replace("Orch Lab", "Study Hall/Orch Lab")
 
+        if ("Financial Literacy" in course) and (not "Study Hall/Financial Literacy" in course):
+            del schedule[num]
+            course = course.replace("Financial Literacy", "Study Hall/Financial Literacy")
+
         teacher_name = course[course.rfind("  ") + 2:]
         course = " ".join(course.split())
+        period = course[:2]
         course_name = course[2:(course.find("FY") if "FY" in course else course.find("Q1")) - 1]
-        result[str(num)] = {"course_name": f"{course_name}", "teacher_name": f"{teacher_name}"}
+        result[str(num)] = {"period": f"{period}", "course_name": f"{course_name}", "teacher_name": f"{teacher_name}"}
 
     return result
 

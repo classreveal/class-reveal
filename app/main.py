@@ -26,9 +26,13 @@ def home():
         flash("You have to be a student at WW-P to use ClassReveal", "danger")
         return redirect(url_for("home"))
 
-    schedule = database.get_user(user_info["id"])
+    user = database.get_user(user_info["id"])
 
-    return render_template("view.html", user_info=user_info, schedule=schedule)
+    if not user:
+        flash("You must upload your schedule in order to use ClassReveal.", "info")
+        return redirect(url_for("upload_schedule"))
+
+    return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=user["schedule"])
 
 @app.route("/logout")
 def logout():
@@ -45,17 +49,20 @@ def logout():
 
 @app.route("/view/<int:user_id>")
 def view(user_id):
+    if not user_id:
+        return url_for("home")
+
     user = database.get_user(user_id)
-    return str(user)
+    return render_template("view.html", name=user["name"], user_id=None, schedule=user["schedule"])
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() == "pdf"
 
 @app.route("/upload", methods=["GET", "POST"])
-def upload_file():
+def upload_schedule():
     if not google.authorized:
         return redirect(url_for("home"))
-        
+
     if request.method == "POST":
         if "file" not in request.files:
             flash("No file part", "danger")
@@ -82,7 +89,6 @@ def upload_file():
             return redirect(url_for("upload_file"))
 
     return render_template("upload.html")
-        
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
