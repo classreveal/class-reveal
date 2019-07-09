@@ -1,119 +1,290 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-        <title>ClassReveal | Upload</title>
-        <meta name="description" content="The easiest way to share schedules and find out who's in your classes! Made for West Windsor-Plainsboro (WW-P) high school students.">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <style>
-            html,
-            body {
-                height: 100%;
-                background-color: #333;
-            }
-        
-            body {
-                display: -ms-flexbox;
-                display: flex;
-                color: #fff;
-                text-align: center;
-            }
 
-            .cover-container {
-                max-width: 42em;
-            }
-        
-            .masthead {
-                margin-bottom: 2rem;
-            }
-        
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>ClassReveal | Upload</title>
+    <meta name="description"
+        content="The easiest way to share schedules and find out who's in your classes! Made for West Windsor-Plainsboro (WW-P) high school students.">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        html,
+        body {
+            height: 100%;
+            background-color: #333;
+        }
+
+        body {
+            display: -ms-flexbox;
+            display: flex;
+            color: #fff;
+            text-align: center;
+        }
+
+        .black {
+            color: black;
+        }
+
+        .cover-container {
+            max-width: 42em;
+        }
+
+        .masthead {
+            margin-bottom: 2rem;
+        }
+
+        .masthead-brand {
+            margin-bottom: 0;
+        }
+
+        .nav-masthead .nav-link {
+            padding: .25rem 0;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .5);
+            background-color: transparent;
+            border-bottom: .25rem solid transparent;
+        }
+
+        .nav-masthead .nav-link:hover,
+        .nav-masthead .nav-link:focus {
+            border-bottom-color: rgba(255, 255, 255, .25);
+        }
+
+        .nav-masthead .nav-link+.nav-link {
+            margin-left: 1rem;
+        }
+
+        .nav-masthead .active {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+
+        @media (min-width: 48em) {
             .masthead-brand {
-                margin-bottom: 0;
+                float: left;
             }
-        
-            .nav-masthead .nav-link {
-                padding: .25rem 0;
-                font-weight: 700;
-                color: rgba(255, 255, 255, .5);
-                background-color: transparent;
-                border-bottom: .25rem solid transparent;
-            }
-        
-            .nav-masthead .nav-link:hover,
-            .nav-masthead .nav-link:focus {
-                border-bottom-color: rgba(255, 255, 255, .25);
-            }
-        
-            .nav-masthead .nav-link+.nav-link {
-                margin-left: 1rem;
-            }
-        
-            .nav-masthead .active {
-                color: #fff;
-                border-bottom-color: #fff;
-            }
-        
-            @media (min-width: 48em) {
-                .masthead-brand {
-                    float: left;
-                }
-        
-                .nav-masthead {
-                    float: right;
-                }
-            }
-        
-            .cover {
-                padding: 0 1.5rem;
-            }
-        
-            .cover .btn-lg {
-                padding: .75rem 1.25rem;
-            }
-        
-            .mastfoot {
-                color: rgba(255, 255, 255, .5);
-            }
-        </style>
-    </head>
-    <body>
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-            <header class="masthead mb-auto">
-                <div class="inner">
-                    <h3 class="masthead-brand">ClassReveal</h3>
-                    <nav class="nav nav-masthead justify-content-center">
-                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-                        <a class="nav-link active" href="{{ url_for('upload_schedule') }}">Upload</a>
-                        <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
-                    </nav>
-                </div>
-            </header>
-        
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <div class="alert alert-{{category}}" role="alert">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            {% endif %}
-            {% endwith %}
 
-            <main role="main" class="inner cover">
-                <h2>Upload Schedule</h2>
-                <br>
-                <form method="post" enctype="multipart/form-data">
-                    <input type="file" name="file">
-                    <button type="submit" class="btn btn-primary">Upload</button>
-                </form>
-            </main>
+            .nav-masthead {
+                float: right;
+            }
+        }
 
-            <footer class="mastfoot mt-auto">
-                <div class="inner">
-                    <p>Made by Daniel Wang and Rahul Shah</p>
-                </div>
-            </footer>
+        .cover {
+            padding: 0 1.5rem;
+        }
+
+        .cover .btn-lg {
+            padding: .75rem 1.25rem;
+        }
+
+        .mastfoot {
+            color: rgba(255, 255, 255, .5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <h3 class="masthead-brand">ClassReveal</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link active" href="{{ url_for('upload_schedule') }}">Upload</a>
+                    <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
+                </nav>
+            </div>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}}" role="alert">
+            {{ message }}
         </div>
-    </body>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <main role="main" class="inner cover">
+            <br>
+            <div>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="upload-tab" data-toggle="tab" href="#upload" role="tab"
+                            aria-controls="upload" aria-selected="true">PDF Upload</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="manual-tab" data-toggle="tab" href="#manual" role="tab"
+                            aria-controls="manual" aria-selected="false">Profile</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="upload" role="tabpanel" aria-labelledby="upload-tab">
+                        <br>
+                        <h2>Upload Schedule</h2>
+                        <br>
+                        <form method="post" enctype="multipart/form-data">
+                            <input type="file" name="file">
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-tab">
+                        <br>
+                        <div>
+                            <div class="card text-center">
+                                <div class="card-header black">
+                                    Name: {{ name }}
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <h4 class="black col">Period 1 Teacher</h4>
+                                            <br />
+                                            <div class="w-100"></div>
+                                            <div class="col">
+                                                <input class="form-control" type="text"
+                                                    placeholder="Search by Last Name">
+                                            </div>
+                                            <div class="col">
+                                                <a href="#" class="btn btn-primary">Add Unlisted</a>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <div class="row">
+                                            <h4 class="black col">Period 2 Teacher</h4>
+                                            <br />
+                                            <div class="w-100"></div>
+                                            <div class="col">
+                                                <input class="form-control" type="text"
+                                                    placeholder="Search by Last Name">
+                                            </div>
+                                            <div class="col">
+                                                <a href="#" class="btn btn-primary">Add Unlisted</a>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <div class="row">
+                                            <h4 class="black col">Period 3 Teacher</h4>
+                                            <br />
+                                            <div class="w-100"></div>
+                                            <div class="col">
+                                                <input class="form-control" type="text"
+                                                    placeholder="Search by Last Name">
+                                            </div>
+                                            <div class="col">
+                                                <a href="#" class="btn btn-primary">Add Unlisted</a>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <div class="row">
+                                            <h4 class="black col">Period 4 Teacher</h4>
+                                            <br />
+                                            <div class="w-100"></div>
+                                            <div class="col">
+                                                <input class="form-control" type="text"
+                                                    placeholder="Search by Last Name">
+                                            </div>
+                                            <div class="col">
+                                                <a href="#" class="btn btn-primary">Add Unlisted</a>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <div class="row">
+                                            <h4 class="black col">Period 5 Teacher</h4>
+                                            <br />
+                                            <div class="w-100"></div>
+                                            <div class="col">
+                                                <input class="form-control" type="text"
+                                                    placeholder="Search by Last Name">
+                                            </div>
+                                            <div class="col">
+                                                <a href="#" class="btn btn-primary">Add Unlisted</a>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <div class="row">
+                                            <h4 class="black col">Period 6 Teacher</h4>
+                                            <br />
+                                            <div class="w-100"></div>
+                                            <div class="col">
+                                                <input class="form-control" type="text"
+                                                    placeholder="Search by Last Name">
+                                            </div>
+                                            <div class="col">
+                                                <a href="#" class="btn btn-primary">Add Unlisted</a>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <div class="row">
+                                            <h4 class="black col">Period 7 Teacher</h4>
+                                            <br />
+                                            <div class="w-100"></div>
+                                            <div class="col">
+                                                <input class="form-control" type="text"
+                                                    placeholder="Search by Last Name">
+                                            </div>
+                                            <div class="col">
+                                                <a href="#" class="btn btn-primary">Add Unlisted</a>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <div class="row">
+                                            <h4 class="black col">Period 8 Teacher</h4>
+                                            <br />
+                                            <div class="w-100"></div>
+                                            <div class="col">
+                                                <input class="form-control" type="text"
+                                                    placeholder="Search by Last Name">
+                                            </div>
+                                            <div class="col">
+                                                <a href="#" class="btn btn-primary">Add Unlisted</a>
+                                            </div>
+                                        </div>
+                                        <br />
+                                    </form>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <a href="#" class="btn btn-primary">Save Changes</a>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>Made by Daniel Wang and Rahul Shah</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</body>
+
 </html>
