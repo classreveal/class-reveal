@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>ClassReveal | Upload</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}" />
     <meta name="description"
         content="The easiest way to share schedules and find out who's in your classes! Made for West Windsor-Plainsboro (WW-P) high school students.">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
@@ -137,7 +138,11 @@
                         <div>
                             <div class="card text-center">
                                 <div class="card-header black">
-                                    Name: {{ name }}
+                                    <span>Name: {{ name }}</span>
+                                </div>
+                                <div class="card-header black">
+                                    <span>Is your teacher not in the autocomplete list? Click "Add Unlisted" to add
+                                        them</span>
                                 </div>
                                 <div class="card-body">
                                     <form>
@@ -148,7 +153,7 @@
                                             <div class="col">
                                                 <input id="t1" class="form-control" type="text"
                                                     placeholder="Search by Last Name">
-                                                <input id="new1" class="form-control" type="text" 
+                                                <input id="new1" class="form-control" type="text"
                                                     placeholder="Add an unlisted Teacher" style="display: none;" />
                                             </div>
                                             <div id="unlist1" class="col">
@@ -167,7 +172,7 @@
                                             <div class="col">
                                                 <input id="t2" class="form-control" type="text"
                                                     placeholder="Search by Last Name" />
-                                                <input id="new2" class="form-control" type="text" 
+                                                <input id="new2" class="form-control" type="text"
                                                     placeholder="Add an unlisted Teacher" style="display: none;" />
                                             </div>
                                             <div id="unlist2" class="col">
@@ -186,7 +191,7 @@
                                             <div class="col">
                                                 <input id="t3" class="form-control" type="text"
                                                     placeholder="Search by Last Name">
-                                                <input id="new3" class="form-control" type="text" 
+                                                <input id="new3" class="form-control" type="text"
                                                     placeholder="Add an unlisted Teacher" style="display: none;" />
                                             </div>
                                             <div id="unlist3" class="col">
@@ -205,7 +210,7 @@
                                             <div class="col">
                                                 <input id="t4" class="form-control" type="text"
                                                     placeholder="Search by Last Name">
-                                                <input id="new4" class="form-control" type="text" 
+                                                <input id="new4" class="form-control" type="text"
                                                     placeholder="Add an unlisted Teacher" style="display: none;" />
                                             </div>
                                             <div id="unlist4" class="col">
@@ -224,7 +229,7 @@
                                             <div class="col">
                                                 <input id="t5" class="form-control" type="text"
                                                     placeholder="Search by Last Name">
-                                                <input id="new5" class="form-control" type="text" 
+                                                <input id="new5" class="form-control" type="text"
                                                     placeholder="Add an unlisted Teacher" style="display: none;" />
                                             </div>
                                             <div id="unlist5" class="col">
@@ -243,8 +248,9 @@
                                             <div class="col">
                                                 <input id="t6" class="form-control" type="text"
                                                     placeholder="Search by Last Name">
-                                                <input id="new6" class="form-control" type="text" 
-                                                    placeholder="Add an unlisted Teacher" style="display: none;" />                                            </div>
+                                                <input id="new6" class="form-control" type="text"
+                                                    placeholder="Add an unlisted Teacher" style="display: none;" />
+                                            </div>
                                             <div id="unlist6" class="col">
                                                 <a class="btn btn-primary">Add Unlisted</a>
                                             </div>
@@ -261,8 +267,9 @@
                                             <div class="col">
                                                 <input id="t7" class="form-control" type="text"
                                                     placeholder="Search by Last Name">
-                                                <input id="new7" class="form-control" type="text" 
-                                                    placeholder="Add an unlisted Teacher" style="display: none;" />                                            </div>
+                                                <input id="new7" class="form-control" type="text"
+                                                    placeholder="Add an unlisted Teacher" style="display: none;" />
+                                            </div>
                                             <div id="unlist7" class="col">
                                                 <a class="btn btn-primary">Add Unlisted</a>
                                             </div>
@@ -279,8 +286,9 @@
                                             <div class="col">
                                                 <input id="t8" class="form-control" type="text"
                                                     placeholder="Search by Last Name">
-                                                <input id="new8" class="form-control" type="text" 
-                                                    placeholder="Add an unlisted Teacher" style="display: none;" />                                            </div>
+                                                <input id="new8" class="form-control" type="text"
+                                                    placeholder="Add an unlisted Teacher" style="display: none;" />
+                                            </div>
                                             <div id="unlist8" class="col">
                                                 <a class="btn btn-primary">Add Unlisted</a>
                                             </div>
@@ -315,104 +323,105 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
-        <script type="text/javascript">
-          $('#unlist1').click(function() {
+    <script type="text/javascript">
+        $('#unlist1').click(function () {
             $('#new1').toggle();
             $('#t1').toggle();
             $('#unlist1').toggle();
             $('#add1').toggle();
-          });
-          $('#unlist2').click(function() {
+        });
+        $('#unlist2').click(function () {
             $('#new2').toggle();
             $('#t2').toggle();
             $('#unlist2').toggle();
             $('#add2').toggle();
-          });
-          $('#unlist3').click(function() {
+        });
+        $('#unlist3').click(function () {
             $('#new3').toggle();
             $('#t3').toggle();
             $('#unlist3').toggle();
             $('#add3').toggle();
-          });
-          $('#unlist4').click(function() {
+        });
+        $('#unlist4').click(function () {
             $('#new4').toggle();
             $('#t4').toggle();
             $('#unlist4').toggle();
             $('#add4').toggle();
-          });
-          $('#unlist5').click(function() {
+        });
+        $('#unlist5').click(function () {
             $('#new5').toggle();
             $('#t5').toggle();
             $('#unlist5').toggle();
             $('#add5').toggle();
-          });
-          $('#unlist6').click(function() {
+        });
+        $('#unlist6').click(function () {
             $('#new6').toggle();
             $('#t6').toggle();
             $('#unlist6').toggle();
             $('#add6').toggle();
-          });
-          $('#unlist7').click(function() {
+        });
+        $('#unlist7').click(function () {
             $('#new7').toggle();
             $('#t7').toggle();
             $('#unlist7').toggle();
             $('#add7').toggle();
-          });
-          $('#unlist8').click(function() {
+        });
+        $('#unlist8').click(function () {
             $('#new8').toggle();
             $('#t8').toggle();
             $('#unlist8').toggle();
             $('#add8').toggle();
-          });
+        });
 
-          $('#back1').click(function() {
+
+        $('#back1').click(function () {
             $('#new1').toggle();
             $('#t1').toggle();
             $('#unlist1').toggle();
             $('#add1').toggle();
-          });
-          $('#back2').click(function() {
+        });
+        $('#back2').click(function () {
             $('#new2').toggle();
             $('#t2').toggle();
             $('#unlist2').toggle();
             $('#add2').toggle();
-          });
-          $('#back3').click(function() {
+        });
+        $('#back3').click(function () {
             $('#new3').toggle();
             $('#t3').toggle();
             $('#unlist3').toggle();
             $('#add3').toggle();
-          });
-          $('#back4').click(function() {
+        });
+        $('#back4').click(function () {
             $('#new4').toggle();
             $('#t4').toggle();
             $('#unlist4').toggle();
             $('#add4').toggle();
-          });
-          $('#back5').click(function() {
+        });
+        $('#back5').click(function () {
             $('#new5').toggle();
             $('#t5').toggle();
             $('#unlist5').toggle();
             $('#add5').toggle();
-          });
-          $('#back6').click(function() {
+        });
+        $('#back6').click(function () {
             $('#new6').toggle();
             $('#t6').toggle();
             $('#unlist6').toggle();
             $('#add6').toggle();
-          });
-          $('#back7').click(function() {
+        });
+        $('#back7').click(function () {
             $('#new7').toggle();
             $('#t7').toggle();
             $('#unlist7').toggle();
             $('#add7').toggle();
-          });
-          $('#back8').click(function() {
+        });
+        $('#back8').click(function () {
             $('#new8').toggle();
             $('#t8').toggle();
             $('#unlist8').toggle();
             $('#add8').toggle();
-          });
+        });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
@@ -422,5 +431,4 @@
         crossorigin="anonymous"></script>
 
 </body>
-
 </html>

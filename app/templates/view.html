@@ -1,132 +1,138 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-        <title>ClassReveal | View</title>
-        <meta name="description" content="The easiest way to share schedules and find out who's in your classes! Made for West Windsor-Plainsboro (WW-P) high school students.">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <style>
-            html,
-            body {
-                height: 100%;
-                background-color: #333;
-            }
-        
-            body {
-                display: -ms-flexbox;
-                display: flex;
-                color: #fff;
-                text-align: center;
-            }
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>ClassReveal | View</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}" />
+    <meta name="description"
+        content="The easiest way to share schedules and find out who's in your classes! Made for West Windsor-Plainsboro (WW-P) high school students.">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        html,
+        body {
+            height: 100%;
+            background-color: #333;
+        }
 
-            .cover-container {
-                max-width: 42em;
-            }
-        
-            .masthead {
-                margin-bottom: 2rem;
-            }
-        
+        body {
+            display: -ms-flexbox;
+            display: flex;
+            color: #fff;
+            text-align: center;
+        }
+
+        .cover-container {
+            max-width: 42em;
+        }
+
+        .masthead {
+            margin-bottom: 2rem;
+        }
+
+        .masthead-brand {
+            margin-bottom: 0;
+        }
+
+        .nav-masthead .nav-link {
+            padding: .25rem 0;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .5);
+            background-color: transparent;
+            border-bottom: .25rem solid transparent;
+        }
+
+        .nav-masthead .nav-link:hover,
+        .nav-masthead .nav-link:focus {
+            border-bottom-color: rgba(255, 255, 255, .25);
+        }
+
+        .nav-masthead .nav-link+.nav-link {
+            margin-left: 1rem;
+        }
+
+        .nav-masthead .active {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+
+        @media (min-width: 48em) {
             .masthead-brand {
-                margin-bottom: 0;
+                float: left;
             }
-        
-            .nav-masthead .nav-link {
-                padding: .25rem 0;
-                font-weight: 700;
-                color: rgba(255, 255, 255, .5);
-                background-color: transparent;
-                border-bottom: .25rem solid transparent;
-            }
-        
-            .nav-masthead .nav-link:hover,
-            .nav-masthead .nav-link:focus {
-                border-bottom-color: rgba(255, 255, 255, .25);
-            }
-        
-            .nav-masthead .nav-link+.nav-link {
-                margin-left: 1rem;
-            }
-        
-            .nav-masthead .active {
-                color: #fff;
-                border-bottom-color: #fff;
-            }
-        
-            @media (min-width: 48em) {
-                .masthead-brand {
-                    float: left;
-                }
-        
-                .nav-masthead {
-                    float: right;
-                }
-            }
-        
-            .cover {
-                padding: 0 1.5rem;
-            }
-        
-            .cover .btn-lg {
-                padding: .75rem 1.25rem;
-            }
-        
-            .mastfoot {
-                color: rgba(255, 255, 255, .5);
-            }
-        </style>
-    </head>
-    <body>
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-            <header class="masthead mb-auto">
-                <div class="inner">
-                    <h3 class="masthead-brand">ClassReveal</h3>
-                    <nav class="nav nav-masthead justify-content-center">
-                        <a class="nav-link active" href="{{ url_for('home') }}">Home</a>
-                        {% if user_id %}
-                        <a class="nav-link" href="{{ url_for('upload_schedule') }}">Upload</a>
-                        <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
-                        {% endif %}
-                    </nav>
-                </div>
-            </header>
-        
-            <main role="main" class="inner cover">
-                {% if user_id %}
-                <h3>Hello, {{ name }}</h3>
-                {% else %}
-                <h3>{{ name }}'s Schedule</h3>
-                {% endif %}
-                <br>
 
-                <table class="table text-light">
-                    <thead>
-                        <tr>
-                            <th scope="col">Period</th>
-                            <th scope="col">Class</th>
-                            <th scope="col">Teacher</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for course in schedule.values() %}
-                            <tr>
-                                <th scope="row">{{ course["period"] }}</th>
-                                <td>{{ course["course_name"] }}</td>
-                                <td>{{ course["teacher_name"] }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </main>
+            .nav-masthead {
+                float: right;
+            }
+        }
+
+        .cover {
+            padding: 0 1.5rem;
+        }
+
+        .cover .btn-lg {
+            padding: .75rem 1.25rem;
+        }
+
+        .mastfoot {
+            color: rgba(255, 255, 255, .5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <h3 class="masthead-brand">ClassReveal</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link active" href="{{ url_for('home') }}">Home</a>
+                    {% if user_id %}
+                    <a class="nav-link" href="{{ url_for('upload_schedule') }}">Upload</a>
+                    <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
+                    {% endif %}
+                </nav>
+            </div>
+        </header>
+
+        <main role="main" class="inner cover">
             {% if user_id %}
-            <p class="lead">Your share link: <code><a href="{{ url_for('view', user_id=user_id) }}">{{ url_for('view', user_id=user_id) }}</a></code></p>
+            <h3>Hello, {{ name }}</h3>
+            {% else %}
+            <h3>{{ name }}'s Schedule</h3>
             {% endif %}
-            <footer class="mastfoot mt-auto">
-                <div class="inner">
-                    <p>Made by Daniel Wang and Rahul Shah</p>
-                </div>
-            </footer>
-        </div>
-    </body>
+            <br>
+
+            <table class="table text-light">
+                <thead>
+                    <tr>
+                        <th scope="col">Period</th>
+                        <th scope="col">Class</th>
+                        <th scope="col">Teacher</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in schedule.values() %}
+                    <tr>
+                        <th scope="row">{{ course["period"] }}</th>
+                        <td>{{ course["course_name"] }}</td>
+                        <td>{{ course["teacher_name"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+        {% if user_id %}
+        <p class="lead">Your share link:
+            <code><a href="{{ url_for('view', user_id=user_id) }}">{{ url_for('view', user_id=user_id) }}</a></code></p>
+        {% endif %}
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>Made by Daniel Wang and Rahul Shah</p>
+            </div>
+        </footer>
+    </div>
+</body>
+
 </html>
