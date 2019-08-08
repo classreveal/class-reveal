@@ -53,6 +53,9 @@ def view(user_id):
         return url_for("home")
 
     user = database.get_user(user_id)
+    if not user:
+        return "404"
+
     return render_template("view.html", name=user["name"], user_id=None, schedule=user["schedule"])
 
 def allowed_file(filename):
