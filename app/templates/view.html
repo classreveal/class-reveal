@@ -28,6 +28,10 @@
             max-width: 42em;
         }
 
+        .black {
+            color: black;
+        }
+
         .masthead {
             margin-bottom: 2rem;
         }
@@ -98,23 +102,33 @@
             </div>
         </header>
         <main role="main" class="inner cover">
-            <table class="table text-light">
-                <caption style="caption-side: top; color:#fff;">{{ name }}'s Schedule</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Period</th>
-                        <th scope="col">Teacher</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {%- for course in schedule.values() -%}
-                    <tr>
-                        <th scope="row">{{ loop.index }}</th>
-                        <td>{{ course["teacher_name"] }}</td>
-                    </tr>
-                    {%- endfor -%}
-                </tbody>
-            </table>
+            <br>
+            <br>
+            {% set count = [] %}
+            {%- for course_row in schedule.values() | batch(2, '&nbsp;') -%}
+            <div class="card-deck">    
+            {%- for course in course_row -%}
+                <div class="card text-center black">
+                        <div class="card-header">
+                            Period {{ count|length + 1 }}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ course["teacher_name"] }}</h5>
+                            <ul class="list-group">
+                                {%- for classmate in classmates %}
+                                <li class="list-group-item">{{ classmate }}</li>
+                                {%- endfor -%}
+                            </ul>
+                        </div>
+                    <br>
+                    <br>
+                </div>
+            {% set __ = count.append(1) %}
+            {%- endfor -%}
+            </div>
+            <br>
+            <br>
+            {%- endfor -%}
         </main>
         {%- if user_id -%}
         <p class="lead">Your share link:

@@ -13,8 +13,14 @@ def add_user(user_id, name, schedule):
         "schedule": schedule
     }
 
+    collection.delete_many({"user_id": str(user_id)})
     collection.insert_one(post)
 
 def get_user(user_id):
     user = collection.find_one({"user_id": str(user_id)}, sort=[( '_id', pymongo.DESCENDING )])
     return user
+
+def get_class(period, teacher_name):
+    query = f"schedule.{period}.teacher_name"
+    classmates = collection.find({query: teacher_name})
+    return classmates

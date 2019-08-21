@@ -1,6 +1,7 @@
 import pdftotext
 import json
 import pprint
+import string
 
 def read_pdf(f):
     pdf = pdftotext.PDF(f)
@@ -17,13 +18,17 @@ def parse_pdf(text):
             del schedule[num]
             del schedule[num]
 
+        teacher = course[course.rfind("  ") + 2:].split(" ")
+        teacher_name = teacher[0] + " " + teacher[1]
+
         if ("Orch Lab" in course) and (not "Study Hall Orch Lab" in course):
             del schedule[num]
+            teacher_name = "Study Hall"
 
         if ("Financial Literacy" in course) and (not "Study Hall/Financial Literacy" in course):
             del schedule[num]
+            teacher_name = "Study Hall"
 
-        teacher_name = course[course.rfind("  ") + 2:]
         result[str(num)] = {"teacher_name": f"{teacher_name}"}
 
     return result if "Student Schedule" in text else ""

@@ -32,7 +32,15 @@ def home():
         flash("You must upload your schedule to use ClassReveal.", "info")
         return redirect(url_for("edit_schedule"))
 
-    return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=user["schedule"])
+    classmates = []
+
+    for i in range(8):
+        course = database.get_class(i, user["schedule"][str(i)]["teacher_name"])
+        for classmate in course:
+            classmates.append(classmate["name"])
+        i += 1
+
+    return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=user["schedule"], classmates=classmates)
 
 @app.route("/logout")
 def logout():
