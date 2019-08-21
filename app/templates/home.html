@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>ClassReveal</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
     <meta name="description"
         content="The easiest way to share schedules and find out who's in your classes! Made for West Windsor-Plainsboro (WW-P) high school students.">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
@@ -104,15 +104,15 @@
                 email.</p>
         </main>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
+        {%- with messages = get_flashed_messages(with_categories=true) -%}
+        {%- if messages -%}
+        {%- for category, message in messages -%}
         <div class="alert alert-{{category}}" role="alert">
             {{ message }}
         </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
+        {%- endfor -%}
+        {%- endif -%}
+        {%- endwith -%}
 
         <footer class="mastfoot mt-auto">
             <div class="inner">

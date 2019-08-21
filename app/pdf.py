@@ -19,21 +19,11 @@ def parse_pdf(text):
 
         if ("Orch Lab" in course) and (not "Study Hall Orch Lab" in course):
             del schedule[num]
-            course = course.replace("Orch Lab", "Study Hall/Orch Lab")
 
         if ("Financial Literacy" in course) and (not "Study Hall/Financial Literacy" in course):
             del schedule[num]
-            course = course.replace("Financial Literacy", "Study Hall/Financial Literacy")
 
         teacher_name = course[course.rfind("  ") + 2:]
-        course = " ".join(course.split())
-        period = course[:2]
-        course_name = course[2:(course.find("FY") if "FY" in course else course.find("Q1")) - 1]
-        result[str(num)] = {"period": f"{period}", "course_name": f"{course_name}", "teacher_name": f"{teacher_name}"}
+        result[str(num)] = {"teacher_name": f"{teacher_name}"}
 
-    return result
-
-if __name__ == "__main__":
-    with open("/tmp/uploads/rahul.pdf", "rb") as f:
-        pp = pprint.PrettyPrinter(indent=4)
-        pp.pprint(parse_pdf(read_pdf(f)))
+    return result if "Student Schedule" in text else ""

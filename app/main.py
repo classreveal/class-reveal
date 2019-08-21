@@ -29,8 +29,8 @@ def home():
     user = database.get_user(user_info["id"])
 
     if not user:
-        flash("You must upload your schedule in order to use ClassReveal.", "info")
-        return redirect(url_for("upload_schedule"))
+        flash("You must upload your schedule to use ClassReveal.", "info")
+        return redirect(url_for("edit_schedule"))
 
     return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=user["schedule"])
 
@@ -54,44 +54,69 @@ def view(user_id):
 
     user = database.get_user(user_id)
     if not user:
-        return "404"
+        return url_for("home")
 
     return render_template("view.html", name=user["name"], user_id=None, schedule=user["schedule"])
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() == "pdf"
 
+@app.route("/edit", methods=["GET", "POST"])
+def edit_schedule():
+    if not google.authorized:
+        return redirect(url_for("home"))
+
+    user_info = google.get("/oauth2/v1/userinfo").json()
+
+    if request.method == "POST":
+        schedule = {}
+
+        for i in range(1, 9):
+            schedule[str(i)] = {"teacher_name": f"{request.form.get('t' + str(i))}"}
+
+        database.add_user(user_info["id"], user_info["name"], schedule)
+
+    user = database.get_user(user_info["id"])
+    schedule = user["schedule"] if user else ""
+
+    return render_template("edit.html", schedule=schedule)
+
 @app.route("/upload", methods=["GET", "POST"])
 def upload_schedule():
     if not google.authorized:
-        return redirect(url_for("home"))
+            return redirect(url_for("home"))
 
     if request.method == "POST":
         if "file" not in request.files:
             flash("No file part", "danger")
-            return redirect(url_for("upload_file"))
+            return redirect(url_for("upload_schedule"))
 
         file = request.files["file"]
 
         if file.filename == "":
             flash("No selected file", "danger")
-            return redirect(url_for("upload_file"))
+            return redirect(url_for("upload_schedule"))
 
         if not (allowed_file(file.filename)):
             flash("Only PDF files are allowed", "danger")
-            return redirect(url_for("upload_file"))
+            return redirect(url_for("upload_schedule"))
 
         try:
             text = pdf.read_pdf(file)
             schedule = pdf.parse_pdf(text)
+
+            if not schedule:
+                flash("Something went wrong", "danger")
+                return redirect(url_for("upload_schedule"))
+
             user_info = google.get("/oauth2/v1/userinfo").json()
             database.add_user(user_info["id"], user_info["name"], schedule)
             return redirect(url_for("home"))
         except Exception as e:
             flash("Something went wrong", "danger")
-            return redirect(url_for("upload_file"))
+            return redirect(url_for("upload_schedule"))
 
     return render_template("upload.html")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(debug=True)
