@@ -121,7 +121,7 @@
                         <span class="input-group-text" id="basic-addon3">Period {{ loop.index }}:</span>
                     </div>
                     <input name="t{{ loop.index0 }}" id="t{{ loop.index0 }}" class="teacher form-control" type="text"
-                        value="{{ course['teacher_name'] }}" autocomplete="off" data-provide="typeahead" required pattern="[A-Za-z0-9 _.,'-]*">
+                        value="{{ course['teacher_name'] }}" autocomplete="off" data-provide="typeahead" required pattern="[A-Za-z0-9 _.,'-]*" onchange="validate('t{{ loop.index0 }}')">
                 </div>
                 <br>
                 {%- endfor -%}
@@ -132,7 +132,7 @@
                         <span class="input-group-text" id="basic-addon3">Period {{ loop.index }}:</span>
                     </div>
                     <input name="t{{ loop.index0 }}" id="t{{ loop.index0 }}" class="teacher form-control" type="text"
-                        placeholder="Search" autocomplete="off" data-provide="typeahead" required pattern="[A-Za-z0-9 _.,'-]*">
+                        placeholder="Search" autocomplete="off" data-provide="typeahead" required pattern="[A-Za-z0-9 _.,'-]*" onchange="validate('t{{ loop.index0 }}')">
                 </div>
                 <br>
                 {% endfor %}
@@ -161,9 +161,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"
         integrity="sha256-LOnFraxKlOhESwdU/dX+K0GArwymUDups0czPWLEg4E=" crossorigin="anonymous"></script>
     <script>
+         teachers = {}
         $.get("{{ url_for('static', filename='json/teachers.json') }}", function (data) {
             $(".teacher").typeahead({ source: data });
+            teachers = data
         }, 'json');
+         function validate(val) {
+            test = false
+            name = document.getElementById(val).value
+            for (var id in teachers) {
+                if (name == teachers[id]) {
+                    test = true
+                    break
+                }
+            }
+            if (!test) {
+                document.getElementById(val).value = ' '
+            }
+        }
     </script>
 </body>
 
