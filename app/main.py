@@ -16,41 +16,34 @@ app.register_blueprint(google_bp, url_prefix="/login")
 
 @app.route("/")
 def home():
-    try:
-        if not google.authorized:
-            return render_template("home.html")
+    if not google.authorized:
+        return render_template("home.html")
 
-        user_info = google.get("/oauth2/v1/userinfo").json()
+    user_info = google.get("/oauth2/v1/userinfo").json()
 
-        if user_info["hd"] != "wwprsd.org":
-            logout()
-            flash("You have to be a student at WW-P to use ClassReveal", "danger")
-            return redirect(url_for("home"))
-
-        user = database.get_user(user_info["id"])
-
-        if not user:
-            flash("You must upload your schedule to use ClassReveal.", "info")
-            return redirect(url_for("edit_schedule"))
-
-        schedule = user["schedule"]
-        
-        for i in range(8):
-            classmates = []
-            course = database.get_class(i, schedule[str(i)]["teacher_name"])
-            
-            for classmate in course:
-                classmates.append(classmate["name"])
-
-            schedule[str(i)]["classmates"] = classmates
-
-        return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=schedule)
-    except Exception as e:
-        print(e)
-
-        del google_bp.token
-        session.clear()
+    if user_info["hd"] != "wwprsd.org":
+        logout()
+        flash("You have to be a student at WW-P to use ClassReveal", "danger")
         return redirect(url_for("home"))
+
+    user = database.get_user(user_info["id"])
+
+    if not user:
+        flash("You must upload your schedule to use ClassReveal.", "info")
+        return redirect(url_for("edit_schedule"))
+
+    schedule = user["schedule"]
+
+    for i in range(8):
+        classmates = []
+        course = database.get_class(i, schedule[str(i)]["teacher_name"])
+        
+        for classmate in course:
+            classmates.append(classmate["name"])
+
+        schedule[str(i)]["classmates"] = classmates
+
+    return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=schedule)
 
 @app.route("/logout")
 def logout():
@@ -81,23 +74,27 @@ def allowed_file(filename):
 
 @app.route("/edit", methods=["GET", "POST"])
 def edit_schedule():
-    if not google.authorized:
-        return redirect(url_for("home"))
+    try:
+        if not google.authorized:
+            return redirect(url_for("home"))
 
-    user_info = google.get("/oauth2/v1/userinfo").json()
+        user_info = google.get("/oauth2/v1/userinfo").json()
 
-    if request.method == "POST":
-        schedule = {}
+        if request.method == "POST":
+            schedule = {}
 
-        for i in range(1, 9):
-            schedule[str(i)] = {"teacher_name": f"{request.form.get('t' + str(i))}"}
+            for i in range(8):
+                schedule[str(i)] = {"teacher_name": f"{request.form.get('t' + str(i))}"}
 
-        database.add_user(user_info["id"], user_info["name"], schedule)
+            database.add_user(user_info["id"], user_info["name"], schedule)
 
-    user = database.get_user(user_info["id"])
-    schedule = user["schedule"] if user else ""
+        user = database.get_user(user_info["id"])
+        schedule = user["schedule"] if user else ""
 
-    return render_template("edit.html", schedule=schedule)
+        return render_template("edit.html", schedule=schedule)
+    except Exception as e:
+        print(e)
+        pass
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload_schedule():
