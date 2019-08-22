@@ -21,11 +21,16 @@ def home():
 
     user_info = google.get("/oauth2/v1/userinfo").json()
 
-    if user_info["hd"] != "wwprsd.org":
+    try:
+        if user_info["hd"] != "wwprsd.org":
+            logout()
+            flash("You have to be a student at WW-P to use ClassReveal", "danger")
+            return redirect(url_for("home"))
+    except:
         logout()
         flash("You have to be a student at WW-P to use ClassReveal", "danger")
         return redirect(url_for("home"))
-
+        
     user = database.get_user(user_info["id"])
 
     if not user:
