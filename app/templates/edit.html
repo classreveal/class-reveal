@@ -121,7 +121,7 @@
                         <span class="input-group-text" id="basic-addon3">Period {{ loop.index }}:</span>
                     </div>
                     <input name="t{{ loop.index0 }}" id="t{{ loop.index0 }}" class="teacher form-control" type="text"
-                        value="{{ course['teacher_name'] }}" autocomplete="off" data-provide="typeahead" required pattern="^[A-Za-z,]+( [A-Za-z,]+)*$">
+                        value="{{ course['teacher_name'] }}" autocomplete="off" data-provide="typeahead" required pattern="[A-Za-z0-9 _.,'-]*">
                 </div>
                 <br>
                 {%- endfor -%}
@@ -132,7 +132,7 @@
                         <span class="input-group-text" id="basic-addon3">Period {{ loop.index + 1 }}:</span>
                     </div>
                     <input name="t{{ loop.index0 }}" id="t{{ loop.index0 }}" class="teacher form-control" type="text"
-                        placeholder="Search" autocomplete="off" data-provide="typeahead" required pattern="^[A-Za-z,]+( [A-Za-z,]+)*$">
+                        placeholder="Search" autocomplete="off" data-provide="typeahead" required pattern="[A-Za-z0-9 _.,'-]*">
                 </div>
                 <br>
                 {% endfor %}
