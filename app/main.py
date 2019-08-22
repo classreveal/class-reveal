@@ -16,23 +16,30 @@ app.register_blueprint(google_bp, url_prefix="/login")
 
 @app.route("/")
 def home():
-    if not google.authorized:
-        return render_template("home.html")
+    try:
+        if not google.authorized:
+            return render_template("home.html")
 
-    user_info = google.get("/oauth2/v1/userinfo").json()
+        user_info = google.get("/oauth2/v1/userinfo").json()
 
-    if user_info["hd"] != "wwprsd.org":
-        logout()
-        flash("You have to be a student at WW-P to use ClassReveal", "danger")
+        if user_info["hd"] != "wwprsd.org":
+            logout()
+            flash("You have to be a student at WW-P to use ClassReveal", "danger")
+            return redirect(url_for("home"))
+
+        user = database.get_user(user_info["id"])
+
+        if not user:
+            flash("You must upload your schedule to use ClassReveal.", "info")
+            return redirect(url_for("edit_schedule"))
+
+        return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=user["schedule"])
+    except Exception as e:
+        print(e)
+
+        del google_bp.token
+        session.clear()
         return redirect(url_for("home"))
-
-    user = database.get_user(user_info["id"])
-
-    if not user:
-        flash("You must upload your schedule to use ClassReveal.", "info")
-        return redirect(url_for("edit_schedule"))
-
-    return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=user["schedule"])
 
 @app.route("/logout")
 def logout():
