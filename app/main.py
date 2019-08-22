@@ -125,17 +125,5 @@ def upload_schedule():
 
     return render_template("upload.html")
 
-@app.route("/admin", methods=["GET"])
-def edit_schedule():
-    if not google.authorized:
-        return redirect(url_for("home"))
-    user_info = google.get("/oauth2/v1/userinfo").json()
-
-    users = database.get_users(request.args.offset, request.args.num)
-
-    # didnt design the ui for admin
-    return render_template("edit.html", schedule=schedule)
- 
-
 if __name__ == "__main__":
     app.run(debug=True)

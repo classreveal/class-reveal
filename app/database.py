@@ -27,7 +27,7 @@ def get_class(period, teacher_name):
 
 def get_users(offset, num):
     users = collection.find({}).limit(num + offset).toArray()
-    for i in range(len(users))
-        if i < offset
+    for i in range(len(users)):
+        if i < offset:
             users.pop(i)
     return users
