@@ -12,7 +12,7 @@ app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 app.config["GOOGLE_OAUTH_CLIENT_ID"] = os.environ.get("GOOGLE_OAUTH_CLIENT_ID")
 app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET")
-google_bp = make_google_blueprint(scope=["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"])
+google_bp = make_google_blueprint(scope=["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile", "openid"])
 app.register_blueprint(google_bp, url_prefix="/login")
 
 def catch_and_log_out(func):
@@ -65,6 +65,7 @@ def home():
     return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=schedule)
 
 @app.route("/logout")
+@catch_and_log_out
 def logout():
     token = google_bp.token["access_token"]
     resp = google.post(
