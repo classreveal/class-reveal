@@ -104,6 +104,10 @@
         <main role="main" class="inner cover">
             <br>
             <br>
+            <h3>{{ name }}'s Schedule</h3>
+            <br>
+
+            {%- if user_id -%}
             {% set count = [] %}
             {%- for course_row in schedule.values() | batch(2, '&nbsp;') -%}
             <div class="card-deck">
@@ -126,6 +130,26 @@
             <br>
             <br>
             {%- endfor -%}
+            {%- endif -%}
+
+            {%- if not user_id -%}
+            <table class="table text-light">
+                <thead>
+                    <tr>
+                        <th scope="col">Period</th>
+                        <th scope="col">Teacher</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in schedule.values() %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ course["teacher_name"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {%- endif -%}
         </main>
         {%- if user_id -%}
         <p class="lead">Your share link:
