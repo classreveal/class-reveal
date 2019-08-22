@@ -129,7 +129,7 @@
                 {%- for i in range (8) if not schedule -%}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">Period {{ loop.index + 1 }}:</span>
+                        <span class="input-group-text" id="basic-addon3">Period {{ loop.index }}:</span>
                     </div>
                     <input name="t{{ loop.index0 }}" id="t{{ loop.index0 }}" class="teacher form-control" type="text"
                         placeholder="Search" autocomplete="off" data-provide="typeahead" required pattern="[A-Za-z0-9 _.,'-]*">
