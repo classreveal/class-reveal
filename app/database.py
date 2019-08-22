@@ -1,9 +1,14 @@
 import pymongo
-import random
 import json
+import os
 
-client = pymongo.MongoClient("mongodb://mongo:27017/")
-db = client.class_reveal
+ip = os.environ.get("MONGO_IP")
+username = os.environ.get("MONGO_USERNAME")
+password = os.environ.get("MONGO_PASSWORD")
+auth_database = os.environ.get("MONGO_AUTH_DATABASE")
+
+client = pymongo.MongoClient(f"mongodb://{username}:{password}@{ip}/?authSource={auth_database}")
+db = client["class-reveal"]
 collection = db.users
 
 def add_user(user_id, name, schedule):
