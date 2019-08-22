@@ -33,7 +33,18 @@ def home():
             flash("You must upload your schedule to use ClassReveal.", "info")
             return redirect(url_for("edit_schedule"))
 
-        return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=user["schedule"])
+        schedule = user["schedule"]
+        
+        for i in range(8):
+            classmates = []
+            course = database.get_class(i, schedule[str(i)]["teacher_name"])
+            
+            for classmate in course:
+                classmates.append(classmate["name"])
+
+            schedule[str(i)]["classmates"] = classmates
+
+        return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=schedule)
     except Exception as e:
         print(e)
 

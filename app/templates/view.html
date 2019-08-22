@@ -114,11 +114,11 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-group">
-                            <p>temp</p>
+                            {%- for classmate in course["classmates"] %}
+                            <li class="list-group-item">{{ classmate }}</li>
+                            {%- endfor -%}
                         </ul>
                     </div>
-                    <br>
-                    <br>
                 </div>
                 {% set __ = count.append(1) %}
                 {%- endfor -%}
