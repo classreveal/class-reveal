@@ -6,9 +6,3 @@ services:
     - app/.env
     ports:
       - "80:80"
-    depends_on:
-      - mongo
-  mongo:
-    image: mongo
-    ports:
-    - "27017:27017"
