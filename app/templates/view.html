@@ -83,6 +83,16 @@
         .mastfoot {
             color: rgba(255, 255, 255, .5);
         }
+
+        .card-deck {
+            padding-bottom: 30px;
+        }
+
+        @media (max-width: 480px) { 
+            .card-deck {
+                padding-bottom: 0px;
+            }
+        }
     </style>
 </head>
 
@@ -127,8 +137,6 @@
                 {% set __ = count.append(1) %}
                 {%- endfor -%}
             </div>
-            <br>
-            <br>
             {%- endfor -%}
             {%- endif -%}
 

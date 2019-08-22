@@ -1,5 +1,6 @@
 import os, json
 from flask import Flask, flash, session, request, redirect, url_for, render_template
+from functools import wraps
 from werkzeug.utils import secure_filename
 from flask_dance.contrib.google import make_google_blueprint, google
 
@@ -14,7 +15,20 @@ app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = os.environ.get("GOOGLE_OAUTH_CLIENT_S
 google_bp = make_google_blueprint(scope=["profile", "email"])
 app.register_blueprint(google_bp, url_prefix="/login")
 
+def catch_and_log_out(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print(f"Exception: {e}")
+            del google_bp.token
+            session.clear()
+            return redirect(url_for("home"))
+    return decorated_function
+
 @app.route("/")
+@catch_and_log_out
 def home():
     if not google.authorized:
         return render_template("home.html")
@@ -64,6 +78,7 @@ def logout():
     return redirect(url_for("home"))
 
 @app.route("/view/<int:user_id>")
+@catch_and_log_out
 def view(user_id):
     if not user_id:
         return url_for("home")
@@ -78,30 +93,28 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() == "pdf"
 
 @app.route("/edit", methods=["GET", "POST"])
+@catch_and_log_out
 def edit_schedule():
-    try:
-        if not google.authorized:
-            return redirect(url_for("home"))
+    if not google.authorized:
+        return redirect(url_for("home"))
 
-        user_info = google.get("/oauth2/v1/userinfo").json()
+    user_info = google.get("/oauth2/v1/userinfo").json()
 
-        if request.method == "POST":
-            schedule = {}
+    if request.method == "POST":
+        schedule = {}
 
-            for i in range(8):
-                schedule[str(i)] = {"teacher_name": f"{request.form.get('t' + str(i))}"}
+        for i in range(8):
+            schedule[str(i)] = {"teacher_name": f"{request.form.get('t' + str(i))}"}
 
-            database.add_user(user_info["id"], user_info["name"], schedule)
+        database.add_user(user_info["id"], user_info["name"], schedule)
 
-        user = database.get_user(user_info["id"])
-        schedule = user["schedule"] if user else ""
+    user = database.get_user(user_info["id"])
+    schedule = user["schedule"] if user else ""
 
-        return render_template("edit.html", schedule=schedule)
-    except Exception as e:
-        print(e)
-        pass
+    return render_template("edit.html", schedule=schedule)
 
 @app.route("/upload", methods=["GET", "POST"])
+@catch_and_log_out
 def upload_schedule():
     if not google.authorized:
             return redirect(url_for("home"))
