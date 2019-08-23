@@ -121,7 +121,7 @@ def edit_schedule():
     else:
         last = int(user['_id'].generation_time.timestamp())
         now = int(time.time())
-        if now-last > 300:
+        if now-last > RATE_TIME:
             hits = 0
         else:
             hits = user['hits']
@@ -178,7 +178,7 @@ def upload_schedule():
             else:
                 last = int(user['_id'].generation_time.timestamp())
                 now = int(time.time())
-                if now-last > 300:
+                if now-last > RATE_TIME:
                     hits = 0
                 else:
                     hits = user['hits']
