@@ -21,9 +21,9 @@ app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = os.environ.get(
 google_bp = make_google_blueprint(
     scope=["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile", "openid"])
 app.register_blueprint(google_bp, url_prefix="/login")
-RATE = int(os.environ.get('RATE'))
-RATE_TIME = int(os.environ.get('RATE'))
-
+RATE_TIME = os.environ.get("RATE_TIME")
+RATE = os.environ.get("RATE_NUM")
+print(RATE + " " + RATE_TIME)
 def catch_and_log_out(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
