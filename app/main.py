@@ -38,7 +38,7 @@ def catch_and_log_out(func):
 def home():
     if not google.authorized:
         return render_template("home.html")
-     
+
     user_info = google.get("/oauth2/v1/userinfo").json()
 
     try:
@@ -110,16 +110,22 @@ def edit_schedule():
         return redirect(url_for("home"))
 
     user_info = google.get("/oauth2/v1/userinfo").json()
+    user = database.get_user(user_info["id"])
+    if user == None:
+        hits = 0
+    else:
+        hits = user['hits']
 
     if request.method == "POST":
-        schedule = {}
-
-        for i in range(8):
-            schedule[str(i)] = {
-                "teacher_name": f"{request.form.get('t' + str(i))}"}
-
-        database.add_user(user_info["id"], user_info["name"], schedule)
-
+        if hits < 8:
+            schedule = {}
+            for i in range(8):
+                schedule[str(i)] = {
+                    "teacher_name": f"{request.form.get('t' + str(i))}"}
+            database.add_user(
+                user_info["id"], user_info["name"], hits+1, schedule)
+        else:
+            flash("Your account has been rate limited.", "danger")
     user = database.get_user(user_info["id"])
     schedule = user["schedule"] if user else ""
 
@@ -156,7 +162,17 @@ def upload_schedule():
                 return redirect(url_for("upload_schedule"))
 
             user_info = google.get("/oauth2/v1/userinfo").json()
-            database.add_user(user_info["id"], user_info["name"], schedule)
+            user = database.get_user(user_info["id"])
+            if user == None:
+                hits = 0
+            else:
+                hits = user['hits']
+            
+            if hits < 8:
+                database.add_user(user_info["id"], user_info["name"], hits+1, schedule)
+            else:
+                flash("Your account has been rate limited.", "danger")
+
             return redirect(url_for("home"))
         except Exception as e:
             flash("Something went wrong", "danger")
@@ -171,6 +187,7 @@ def faq():
     if not google.authorized:
         user_login = False
     return render_template("faq.html",  user_login=user_login)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
