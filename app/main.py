@@ -183,7 +183,7 @@ def upload_schedule():
                 else:
                     hits = user['hits']
 
-            if hits < 8:
+            if hits < RATE:
                 database.add_user(
                     user_info["id"], user_info["name"], hits+1, schedule)
             else:
