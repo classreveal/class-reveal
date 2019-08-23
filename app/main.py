@@ -4,9 +4,12 @@ from flask import Flask, flash, session, request, redirect, url_for, render_temp
 from functools import wraps
 from werkzeug.utils import secure_filename
 from flask_dance.contrib.google import make_google_blueprint, google
-
+from datetime import datetime
+import dateutil.parser as dp
+import time
 import database
 import pdf
+import pymongo
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "/tmp/uploads"
@@ -18,7 +21,8 @@ app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = os.environ.get(
 google_bp = make_google_blueprint(
     scope=["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile", "openid"])
 app.register_blueprint(google_bp, url_prefix="/login")
-
+RATE = os.environ.get('RATE')
+RATE_TIME = os.environ.get('RATE')
 
 def catch_and_log_out(func):
     @wraps(func)
@@ -111,13 +115,19 @@ def edit_schedule():
 
     user_info = google.get("/oauth2/v1/userinfo").json()
     user = database.get_user(user_info["id"])
+
     if user == None:
         hits = 0
     else:
-        hits = user['hits']
+        last = int(user['_id'].generation_time.timestamp())
+        now = int(time.time())
+        if now-last > 300:
+            hits = 0
+        else:
+            hits = user['hits']
 
     if request.method == "POST":
-        if hits < 8:
+        if hits < RATE:
             schedule = {}
             for i in range(8):
                 schedule[str(i)] = {
@@ -166,10 +176,16 @@ def upload_schedule():
             if user == None:
                 hits = 0
             else:
-                hits = user['hits']
-            
+                last = int(user['_id'].generation_time.timestamp())
+                now = int(time.time())
+                if now-last > 300:
+                    hits = 0
+                else:
+                    hits = user['hits']
+
             if hits < 8:
-                database.add_user(user_info["id"], user_info["name"], hits+1, schedule)
+                database.add_user(
+                    user_info["id"], user_info["name"], hits+1, schedule)
             else:
                 flash("Your account has been rate limited.", "danger")
 
