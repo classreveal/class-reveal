@@ -118,26 +118,36 @@
             <br>
 
             {%- if user_id -%}
-            {% set count = [] %}
-            {%- for course_row in schedule.values() | batch(2, '&nbsp;') -%}
-            <div class="card-deck">
-                {%- for course in course_row -%}
-                <div class="card text-center black">
-                    <div class="card-header">
-                        {{ count|length + 1 }} - {{ course["teacher_name"] }}
-                    </div>
-                    <div class="card-body">
+            <div class="dropdown">
+                <button class="btn btn-block btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select Period
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {%- for course in schedule.values() -%}
+                    <a class="dropdown-item" id="nav-t{{ loop.index0 }}-tab" data-toggle="tab" href="#nav-t{{ loop.index0 }}" role="tab"
+                        aria-controls="nav-t{{ loop.index0 }}">{{ loop.index }} - {{ course["teacher_name"] }}</a>
+                {%- endfor -%}
+                </div>
+            </div>
+            <br>
+            <div class="card black">
+            <div class="card-body">
+                <div class="tab-content" id="myTabContent">
+                    {%- for course in schedule.values() -%}
+                    <div class="tab-pane fade show" id="nav-t{{ loop.index0 }}" role="tabpanel" aria-labelledby="nav-t{{ loop.index0 }}-tab">
+                        <h5 class="card-header">{{ loop.index }} - {{ course["teacher_name"] }}</h5>
                         <ul class="list-group">
                             {%- for classmate in course["classmates"] %}
                             <li class="list-group-item">{{ classmate }}</li>
                             {%- endfor -%}
                         </ul>
                     </div>
+                    {%- endfor -%}
                 </div>
-                {% set __ = count.append(1) %}
-                {%- endfor -%}
+                </div>
             </div>
-            {%- endfor -%}
+            <br>
+            <br>
             {%- endif -%}
 
             {%- if not user_id -%}
@@ -170,8 +180,14 @@
             </div>
         </footer>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146166505-1"></script>
     <script>
+        $('#nav-t0-tab, #nav-t0').addClass("active");
+
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
