@@ -1,19 +1,24 @@
-import os, json
+import os
+import json
 from flask import Flask, flash, session, request, redirect, url_for, render_template
 from functools import wraps
 from werkzeug.utils import secure_filename
 from flask_dance.contrib.google import make_google_blueprint, google
 
-import database, pdf
+import database
+import pdf
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "/tmp/uploads"
 app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 app.config["GOOGLE_OAUTH_CLIENT_ID"] = os.environ.get("GOOGLE_OAUTH_CLIENT_ID")
-app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET")
-google_bp = make_google_blueprint(scope=["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile", "openid"])
+app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = os.environ.get(
+    "GOOGLE_OAUTH_CLIENT_SECRET")
+google_bp = make_google_blueprint(
+    scope=["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile", "openid"])
 app.register_blueprint(google_bp, url_prefix="/login")
+
 
 def catch_and_log_out(func):
     @wraps(func)
@@ -26,6 +31,7 @@ def catch_and_log_out(func):
             session.clear()
             return redirect(url_for("home"))
     return decorated_function
+
 
 @app.route("/")
 @catch_and_log_out
@@ -44,7 +50,7 @@ def home():
         logout()
         flash("You have to be a student at WW-P to use ClassReveal", "danger")
         return redirect(url_for("home"))
-        
+
     user = database.get_user(user_info["id"])
 
     if not user:
@@ -56,13 +62,14 @@ def home():
     for i in range(8):
         classmates = []
         course = database.get_class(i, schedule[str(i)]["teacher_name"])
-        
+
         for classmate in course:
             classmates.append(classmate["name"])
 
         schedule[str(i)]["classmates"] = classmates
 
     return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=schedule)
+
 
 @app.route("/logout")
 @catch_and_log_out
@@ -78,6 +85,7 @@ def logout():
     session.clear()
     return redirect(url_for("home"))
 
+
 @app.route("/view/<int:user_id>")
 @catch_and_log_out
 def view(user_id):
@@ -90,8 +98,10 @@ def view(user_id):
 
     return render_template("view.html", name=user["name"], user_id=None, schedule=user["schedule"])
 
+
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() == "pdf"
+
 
 @app.route("/edit", methods=["GET", "POST"])
 @catch_and_log_out
@@ -105,7 +115,8 @@ def edit_schedule():
         schedule = {}
 
         for i in range(8):
-            schedule[str(i)] = {"teacher_name": f"{request.form.get('t' + str(i))}"}
+            schedule[str(i)] = {
+                "teacher_name": f"{request.form.get('t' + str(i))}"}
 
         database.add_user(user_info["id"], user_info["name"], schedule)
 
@@ -114,11 +125,12 @@ def edit_schedule():
 
     return render_template("edit.html", schedule=schedule)
 
+
 @app.route("/upload", methods=["GET", "POST"])
 @catch_and_log_out
 def upload_schedule():
     if not google.authorized:
-            return redirect(url_for("home"))
+        return redirect(url_for("home"))
 
     if request.method == "POST":
         if "file" not in request.files:
@@ -151,6 +163,14 @@ def upload_schedule():
             return redirect(url_for("upload_schedule"))
 
     return render_template("upload.html")
+
+
+@app.route("/faq")
+def faq():
+    user_login = True
+    if not google.authorized:
+        user_login = False
+    return render_template("faq.html",  user_login=user_login)
 
 if __name__ == "__main__":
     app.run(debug=True)

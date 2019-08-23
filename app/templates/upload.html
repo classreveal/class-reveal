@@ -89,6 +89,7 @@
                 <h3 class="masthead-brand">ClassReveal</h3>
                 <nav class="nav nav-masthead justify-content-center">
                     <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a>
                     <a class="nav-link" href="{{ url_for('edit_schedule') }}">Edit</a>
                     <a class="nav-link active" href="{{ url_for('upload_schedule') }}">Upload</a>
                     <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
@@ -108,10 +109,10 @@
         {%- endwith -%}
         <main role="main" class="inner cover">
             <h3>Upload Schedule</h3>
-                 <p class="text-light mx-3 my-3">Login to your WW-P Genesis account and download your <b>list</b>
-                        schedule. Click on <kbd>Choose File</kbd>. Select the <b>list</b> schedule from your file
-                        explorer and select the <kbd>Upload</kbd> button.
-                    </p>
+            <p class="text-light mx-3 my-3">Login to your WW-P Genesis account and download your <b>list</b>
+                schedule. Click on <kbd>Choose File</kbd>. Select the <b>list</b> schedule from your file
+                explorer and select the <kbd>Upload</kbd> button.
+            </p>
             <br>
             <form method="post" enctype="multipart/form-data">
                 <input type="file" name="file" accept="application/pdf">

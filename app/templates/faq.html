@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>ClassReveal | FAQ</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <meta name="description"
+        content="The easiest way to share schedules and find out who's in your classes! Made for West Windsor-Plainsboro (WW-P) high school students.">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.8/css/mdb.min.css" rel="stylesheet"> -->
+    <style>
+        html,
+        body {
+            height: 100%;
+            background-color: #333;
+        }
+
+        body {
+            display: -ms-flexbox;
+            display: flex;
+            color: #fff;
+            text-align: center;
+        }
+
+        .cover-container {
+            max-width: 42em;
+        }
+
+        .masthead {
+            margin-bottom: 2rem;
+        }
+
+        .masthead-brand {
+            margin-bottom: 0;
+        }
+
+        .nav-masthead .nav-link {
+            padding: .25rem 0;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .5);
+            background-color: transparent;
+            border-bottom: .25rem solid transparent;
+        }
+
+        .nav-masthead .nav-link:hover,
+        .nav-masthead .nav-link:focus {
+            border-bottom-color: rgba(255, 255, 255, .25);
+        }
+
+        .nav-masthead .nav-link+.nav-link {
+            margin-left: 1rem;
+        }
+
+        .nav-masthead .active {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+
+        @media (min-width: 48em) {
+            .masthead-brand {
+                float: left;
+            }
+
+            .nav-masthead {
+                float: right;
+            }
+        }
+
+        .black {
+            color: black;
+        }
+
+        .cover {
+            padding: 0 1.5rem;
+        }
+
+        .cover .btn-lg {
+            padding: .75rem 1.25rem;
+        }
+
+        .mastfoot {
+            color: rgba(255, 255, 255, .5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <h3 class="masthead-brand">ClassReveal</h3>
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    <a class="nav-link active" href="{{ url_for('faq') }}">FAQ</a>
+                    {%- if user_login -%}
+                    <a class="nav-link" href="{{ url_for('edit_schedule') }}">Edit</a>
+                    <a class="nav-link" href="{{ url_for('upload_schedule') }}">Upload</a>
+                    <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
+                    {%- endif -%}
+                </nav>
+            </div>
+        </header>
+
+        <main role="main" class="inner cover">
+            <h1>FAQ</h1>
+            <br>
+            <div class="accordion text-dark md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+                <div class="card bg-light">
+
+                    <div class="card-header" role="tab" id="heading1">
+                        <a data-toggle="collapse" data-parent="#accordionEx" href="#collapse1" aria-expanded="true"
+                            aria-controls="collapse1">
+                            <h5 class="mb-0">
+                                What is Class Reveal? <i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                        </a>
+                    </div>
+
+                    <div id="collapse1" class="collapse show" role="tabpanel" aria-labelledby="heading1"
+                        data-parent="#accordionEx">
+                        <div class="card-body">
+                            Class Reveal is a web app that facilitates the syncronization and sharing of schedules
+                            between WW-P students. It was created to help students discover their class rosters
+                            prior to the start of school.
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card bg-light">
+
+                    <div class="card-header" role="tab" id="heading2">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapse2"
+                            aria-expanded="false" aria-controls="collapse2">
+                            <h5 class="mb-0">
+                                How does it work? <i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                        </a>
+                    </div>
+
+                    <div id="collapse2" class="collapse" role="tabpanel" aria-labelledby="heading2"
+                        data-parent="#accordionEx">
+                        <div class="card-body">
+                            Class Reveal utilizes the schedule data from students to collate and render a class view
+                            that helps students discover who's in their classes.
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card bg-light">
+
+                    <div class="card-header" role="tab" id="heading3">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapse3"
+                            aria-expanded="false" aria-controls="collapse3">
+                            <h5 class="mb-0">
+                                Who is behind Class Reveal? <i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                        </a>
+                    </div>
+
+                    <div id="collapse3" class="collapse" role="tabpanel" aria-labelledby="heading3"
+                        data-parent="#accordionEx">
+                        <div class="card-body">
+                            Class Reveal was originally created by Elizabeth Petrov and Xavier Lu in 2016-2017. It
+                            has been maintained in the past by Bharath Hegde, Peter Wu, Spencer Hua, and Serena
+                            Chang. This years site has been renovated and constructed by Daniel Wang, Rahul Shah, Akash
+                            Bobba, and Krish Thawani. The custodians for 2020-2021 are TBA...
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card bg-light">
+                    <div class="card-header" role="tab" id="heading4">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapse4"
+                            aria-expanded="false" aria-controls="collapse4">
+                            <h5 class="mb-0">
+                                My PDF won't load. <i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                        </a>
+                    </div>
+                    <div id="collapse4" class="collapse" role="tabpanel" aria-labelledby="heading4"
+                        data-parent="#accordionEx">
+                        <div class="card-body">
+                            Class Reveal requires that you upload the <b>list</b> schedule from Genesis as opposed
+                            to the block schedule. More instructions on how to upload can be found at <a
+                                href="/upload">/upload</a>.
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card bg-light">
+                    <div class="card-header" role="tab" id="heading5">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapse5"
+                            aria-expanded="false" aria-controls="collapse5">
+                            <h5 class="mb-0">
+                                I got rate limited!? <i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                        </a>
+                    </div>
+
+                    <div id="collapse5" class="collapse" role="tabpanel" aria-labelledby="heading5"
+                        data-parent="#accordionEx">
+                        <div class="card-body">
+                            Class Reveal was designed and constructed to be used to find friends and classmates in
+                            <b>your</b> classes. In order to ensure that it is being used for this purpose, and to
+                            mitigate the strain of simultaneous database queries we have implemented rate limiting
+                            to
+                            prevent misuse of the platform. If you have been rate limited please wait for the
+                            restriction to expire.
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+
+        {%- with messages = get_flashed_messages(with_categories=true) -%}
+        {%- if messages -%}
+        {%- for category, message in messages -%}
+        <div class="alert alert-{{category}}" role="alert">
+            {{ message }}
+        </div>
+        {%- endfor -%}
+        {%- endif -%}
+        {%- endwith -%}
+
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>Made by Daniel Wang, Rahul Shah, Akash Bobba and Krish Thawani</p>
+                <p>Email any questions to: <a href="mailto:team@classreveal.com">team@classreveal.com</a></p>
+            </div>
+        </footer>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.8/js/mdb.min.js"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146166505-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-146166505-1');
+    </script>
+</body>
+
+</html>
