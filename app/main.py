@@ -38,7 +38,7 @@ def catch_and_log_out(func):
 def home():
     if not google.authorized:
         return render_template("home.html")
-
+     
     user_info = google.get("/oauth2/v1/userinfo").json()
 
     try:

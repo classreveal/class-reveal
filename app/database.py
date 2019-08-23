@@ -30,7 +30,7 @@ def get_class(period, teacher_name):
     classmates = collection.find({query: teacher_name})
     return classmates
 
-def get_users(offset, num):
+def rate(offset, num):
     users = collection.find({}).limit(num + offset).toArray()
     for i in range(len(users)):
         if i < offset:
