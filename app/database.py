@@ -31,7 +31,3 @@ def get_class(period, teacher_name):
     classmates = collection.find({query: teacher_name})
     return classmates
 
-def get_rate(user_id):
-    user = collection.find_one({"user_id": str(user_id)}, sort=[( '_id', pymongo.DESCENDING )])
-
-

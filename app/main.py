@@ -21,10 +21,12 @@ app.config["GOOGLE_OAUTH_CLIENT_SECRET"] = os.environ.get(
 google_bp = make_google_blueprint(
     scope=["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile", "openid"])
 app.register_blueprint(google_bp, url_prefix="/login")
-# RATE_TIME = os.environ.get("RATE_TIME")
-# RATE = os.environ.get("RATE_NUM")
-RATE_TIME = 300
-RATE = 4
+RATE_TIME = os.environ.get("RATE_TIME")
+RATE_NUM = os.environ.get("RATE_NUM")
+# RATE_TIME = 300
+# RATE_NUM = 4
+
+
 def catch_and_log_out(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
@@ -122,13 +124,13 @@ def edit_schedule():
     else:
         last = int(user['_id'].generation_time.timestamp())
         now = int(time.time())
-        if now-last > RATE_TIME:
+        if now-last > int(RATE_TIME):
             hits = 0
         else:
             hits = user['hits']
 
     if request.method == "POST":
-        if hits < RATE:
+        if hits < int(RATE_NUM):
             schedule = {}
             for i in range(8):
                 schedule[str(i)] = {
@@ -179,12 +181,12 @@ def upload_schedule():
             else:
                 last = int(user['_id'].generation_time.timestamp())
                 now = int(time.time())
-                if now-last > RATE_TIME:
+                if now-last > int(RATE_TIME):
                     hits = 0
                 else:
                     hits = user['hits']
 
-            if hits < RATE:
+            if hits < int(RATE_NUM):
                 database.add_user(
                     user_info["id"], user_info["name"], hits+1, schedule)
             else:
@@ -205,6 +207,10 @@ def faq():
         user_login = False
     return render_template("faq.html",  user_login=user_login)
 
-
+@app.errorhandler(404)
+def page_not_found(e):
+    flash("404 - If only that page existed... 🤔", "warning")
+    return redirect(url_for("home"))
+    
 if __name__ == "__main__":
     app.run(debug=True)
