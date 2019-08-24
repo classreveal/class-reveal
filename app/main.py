@@ -4,7 +4,7 @@ from flask import Flask, flash, session, request, redirect, url_for, render_temp
 from functools import wraps
 from werkzeug.utils import secure_filename
 from flask_dance.contrib.google import make_google_blueprint, google
-# from datetime import datetime
+from datetime import datetime
 # import dateutil.parser as dp
 import time
 import database
@@ -119,6 +119,12 @@ def edit_schedule():
     user_info = google.get("/oauth2/v1/userinfo").json()
     user = database.get_user(user_info["id"])
 
+    try:
+        if int(user_info['email'][:2]) + 2000 > int(datetime.now().year) + 4: 
+            flash("Middle school students are restricted to the manual entry option. Fill in your schedule with all periods (offteam and team) with the exception of Flex and lunch.", "warning")
+    except:
+        pass
+
     if user == None:
         hits = 0
     else:
@@ -151,6 +157,17 @@ def upload_schedule():
     if not google.authorized:
         return redirect(url_for("home"))
 
+    user_info = google.get("/oauth2/v1/userinfo").json()
+    user = database.get_user(user_info["id"])
+
+    try:
+        if int(user_info['email'][:2]) + 2000 > int(datetime.now().year) + 4: 
+            print('t')
+            flash("Middle school students are restricted to the manual entry option. Fill in your schedule with all periods (offteam and team) with the exception of Flex and lunch.", "warning")
+            return redirect(url_for("edit_schedule"))
+    except:
+        pass
+
     if request.method == "POST":
         if "file" not in request.files:
             flash("No file part", "danger")
@@ -174,8 +191,6 @@ def upload_schedule():
                 flash("Something went wrong", "danger")
                 return redirect(url_for("upload_schedule"))
 
-            user_info = google.get("/oauth2/v1/userinfo").json()
-            user = database.get_user(user_info["id"])
             if user == None:
                 hits = 0
             else:
@@ -211,6 +226,6 @@ def faq():
 def page_not_found(e):
     flash("404 - If only that page existed... 🤔", "warning")
     return redirect(url_for("home"))
-    
+
 if __name__ == "__main__":
     app.run(debug=True)

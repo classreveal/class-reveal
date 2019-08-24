@@ -83,10 +83,36 @@
         .mastfoot {
             color: rgba(255, 255, 255, .5);
         }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .confet {
+            position: relative;
+            min-height: 100vh;
+        }
+
+        [class|="confetti"] {
+            position: absolute;
+        }
+
+        .red {
+            background-color: #E94A3F;
+        }
+
+        .yellow {
+            background-color: #FAA040;
+        }
+
+        .blue {
+            background-color: #5FC9F5;
+        }
     </style>
 </head>
 
-<body>
+<body class="confet">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
@@ -104,13 +130,13 @@
             <h3 class="lead">Made for WW-P students, by WW-P students.</h3>
             <br>
             <p class="lead">
-                <a class="btn btn-light btn-lg disabled" href="{{ url_for('google.login') }}">
+                <a id="login" class="btn btn-light btn-lg disabled" href="{{ url_for('google.login') }}">
                     <img width="20px" alt="Google &quot;G&quot; Logo"
                         src="{{ url_for('static', filename='img/google_logo.png') }}">
                     <span class="pull-right text-primary">Login with Google</span>
                 </a>
             </p>
-                        <p class="lead">Class Reveal has gone fishing! Will be back on August 24th. See you then!</p>
+            <p class="lead">Class Reveal has gone fishing! Will be back on August 24th. See you then!</p>
 
             <p class="lead">To verify that you are a WW-P student, you must sign in with your <code>wwprsd.org</code>
                 email.</p>
@@ -133,12 +159,62 @@
             </div>
         </footer>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146166505-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'UA-146166505-1');
+        if (!document.getElementById('login').classList.contains('disabled')) {
+            for (var i = 0; i < 250; i++) {
+                create(i);
+            }
+        }
+        function create(i) {
+            var width = Math.random() * 8;
+            var height = width * 0.4;
+            var colourIdx = Math.ceil(Math.random() * 3);
+            var colour = "red";
+            switch (colourIdx) {
+                case 1:
+                    colour = "yellow";
+                    break;
+                case 2:
+                    colour = "blue";
+                    break;
+                default:
+                    colour = "red";
+            }
+            $('<div class="confetti-' + i + ' ' + colour + '"></div>').css({
+                "width": width + "px",
+                "height": height + "px",
+                "top": -Math.random() * 20 + "%",
+                "left": Math.random() * 100 + "%",
+                "opacity": Math.random() + 0.5,
+                "transform": "rotate(" + Math.random() * 360 + "deg)"
+            }).appendTo('.confet');
+
+            drop(i);
+        }
+
+        function drop(x) {
+            $('.confetti-' + x).animate({
+                top: "100%",
+                left: "+=" + Math.random() * 15 + "%"
+            }, Math.random() * 3000 + 3000, function () {
+                reset(x);
+            });
+        }
+
+        function reset(x) {
+            $('.confetti-' + x).animate({
+                "top": -Math.random() * 20 + "%",
+                "left": "-=" + Math.random() * 15 + "%"
+            }, 0, function () {
+                drop(x);
+            });
+        }
     </script>
 </body>
 
