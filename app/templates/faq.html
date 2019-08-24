@@ -108,7 +108,8 @@
 
         <main role="main" class="inner cover">
             <h3 class="mb-4">FAQ</h3>
-            <div class="accordion mb-3 text-dark md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+            <div class="accordion mb-3 text-dark md-accordion" id="accordionEx" role="tablist"
+                aria-multiselectable="true">
 
                 <div class="card bg-light">
 
@@ -215,10 +216,29 @@
                             restriction to expire.
                         </div>
                     </div>
+                    <div class="card bg-light">
+                        <div class="card-header" role="tab" id="heading6">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapse6"
+                                aria-expanded="false" aria-controls="collapse6">
+                                <h5 class="mb-0">
+                                    Questions, concerns, complaints... <i class="fas fa-angle-down rotate-icon"></i>
+                                </h5>
+                            </a>
+                        </div>
+
+                        <div id="collapse6" class="collapse" role="tabpanel" aria-labelledby="heading6"
+                            data-parent="#accordionEx">
+                            <div class="card-body">
+                                For more information or questions contact us at <a
+                                    href="mailto:team@classreveal.com">team@classreveal.com</a>. For complaints select the button
+                                below.
+                                <button type="button" class="mt-3 btn btn-block btn-outline-warning" onclick="alert('👌');">Complain</button>
+
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
-
-            </div>
         </main>
 
         {%- with messages = get_flashed_messages(with_categories=true) -%}
