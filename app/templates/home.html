@@ -136,7 +136,7 @@
                     <span class="pull-right text-primary">Login with Google</span>
                 </a>
             </p>
-            <p class="lead">Class Reveal has gone fishing! Will be back on August 24th. See you then!</p>
+            <p id="livemsg" class="lead"></p>
 
             <p class="lead">To verify that you are a WW-P student, you must sign in with your <code>wwprsd.org</code>
                 email.</p>
@@ -167,9 +167,12 @@
         gtag('js', new Date());
         gtag('config', 'UA-146166505-1');
         if (!document.getElementById('login').classList.contains('disabled')) {
+            document.getElementById('livemsg').innerHTML = "Class Reveal is live!"
             for (var i = 0; i < 250; i++) {
                 create(i);
             }
+        } else {
+            document.getElementById('livemsg').innerHTML = "Class Reveal has gone fishing! Will be back on August 24th. See you then!"
         }
         function create(i) {
             var width = Math.random() * 8;
