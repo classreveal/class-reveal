@@ -24,6 +24,7 @@ app.register_blueprint(google_bp, url_prefix="/login")
 RATE_TIME = os.environ.get("RATE_TIME")
 RATE_NUM = os.environ.get("RATE_NUM")
 
+
 def catch_and_log_out(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
@@ -35,6 +36,7 @@ def catch_and_log_out(func):
             session.clear()
             return redirect(url_for("home"))
     return decorated_function
+
 
 @app.route("/")
 @catch_and_log_out
@@ -61,6 +63,7 @@ def home():
         return redirect(url_for("edit_schedule"))
 
     schedule = user["schedule"]
+    flash("We hope you like Class Reveal. You can help improve it by sharing it. More shares eqauates to a more thorough roster for everyone. It's science!", "success")
 
     for i in range(8):
         classmates = []
@@ -116,7 +119,7 @@ def edit_schedule():
     user = database.get_user(user_info["id"])
 
     try:
-        if int(user_info['email'][:2]) + 2000 > int(datetime.now().year) + 4: 
+        if int(user_info['email'][:2]) + 2000 > int(datetime.now().year) + 4:
             flash("Middle school students are restricted to the manual entry option. Fill in your schedule with all periods (offteam and team) with the exception of Flex and lunch.", "warning")
     except:
         pass
@@ -141,13 +144,12 @@ def edit_schedule():
                 user_info["id"], user_info["name"], hits+1, schedule)
         else:
             flash("Your account has been rate limited.", "danger")
-
         return redirect(url_for("home"))
-        
+
     user = database.get_user(user_info["id"])
     schedule = user["schedule"] if user else ""
 
-    return render_template("edit.html", schedule=schedule)
+    return render_template("edit.html", schedule=schedule, user_id=True)
 
 
 @app.route("/upload", methods=["GET", "POST"])
@@ -160,7 +162,7 @@ def upload_schedule():
     user = database.get_user(user_info["id"])
 
     try:
-        if int(user_info['email'][:2]) + 2000 > int(datetime.now().year) + 4: 
+        if int(user_info['email'][:2]) + 2000 > int(datetime.now().year) + 4:
             print('t')
             flash("Middle school students are restricted to the manual entry option. Fill in your schedule with all periods (offteam and team) with the exception of Flex and lunch.", "warning")
             return redirect(url_for("edit_schedule"))
@@ -205,26 +207,27 @@ def upload_schedule():
                     user_info["id"], user_info["name"], hits+1, schedule)
             else:
                 flash("Your account has been rate limited.", "danger")
-
             return redirect(url_for("home"))
         except Exception as e:
             flash("Something went wrong", "danger")
             return redirect(url_for("upload_schedule"))
 
-    return render_template("upload.html")
+    return render_template("upload.html", user_id=True)
 
 
 @app.route("/faq")
 def faq():
-    user_login = True
+    user_id = True
     if not google.authorized:
-        user_login = False
-    return render_template("faq.html",  user_login=user_login)
+        user_id = False
+    return render_template("faq.html",  user_id=user_id)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
     flash("404 - If only that page existed... 🤔", "warning")
     return redirect(url_for("home"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
