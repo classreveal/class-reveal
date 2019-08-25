@@ -23,9 +23,6 @@ google_bp = make_google_blueprint(
 app.register_blueprint(google_bp, url_prefix="/login")
 RATE_TIME = os.environ.get("RATE_TIME")
 RATE_NUM = os.environ.get("RATE_NUM")
-# RATE_TIME = 300
-# RATE_NUM = 4
-
 
 def catch_and_log_out(func):
     @wraps(func)
@@ -38,7 +35,6 @@ def catch_and_log_out(func):
             session.clear()
             return redirect(url_for("home"))
     return decorated_function
-
 
 @app.route("/")
 @catch_and_log_out
