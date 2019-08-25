@@ -88,41 +88,19 @@
             margin: 0;
             overflow: hidden;
         }
-
-        .confet {
-            position: relative;
-            min-height: 100vh;
-        }
-
-        [class|="confetti"] {
-            position: absolute;
-        }
-
-        .red {
-            background-color: #E94A3F;
-        }
-
-        .yellow {
-            background-color: #FAA040;
-        }
-
-        .blue {
-            background-color: #5FC9F5;
-        }
     </style>
 </head>
 
-<body class="confet">
+<body>
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand">ClassReveal</h3>
+                <h3 class="masthead-brand" href="/">ClassReveal</h3>
                 <nav class="nav nav-masthead justify-content-center">
                     <a class="nav-link active" href="{{ url_for('home') }}">Home</a>
                     <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a>
                 </nav>
             </div>
-
         </header>
 
         <main role="main" class="inner cover">
@@ -166,58 +144,6 @@
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'UA-146166505-1');
-      if (!document.getElementById('login').classList.contains('disabled')) {
-            document.getElementById('livemsg').innerHTML = "Class Reveal is live!"
-            for (var i = 0; i < 250; i++) {
-                create(i);
-            }
-        } else {
-            document.getElementById('livemsg').innerHTML = "Class Reveal has gone fishing! Will be back on August 24th. See you then!"
-        }
-        function create(i) {
-            var width = Math.random() * 8;
-            var height = width * 0.4;
-            var colourIdx = Math.ceil(Math.random() * 3);
-            var colour = "red";
-            switch (colourIdx) {
-                case 1:
-                    colour = "yellow";
-                    break;
-                case 2:
-                    colour = "blue";
-                    break;
-                default:
-                    colour = "red";
-            }
-            $('<div class="confetti-' + i + ' ' + colour + '"></div>').css({
-                "width": width + "px",
-                "height": height + "px",
-                "top": -Math.random() * 20 + "%",
-                "left": Math.random() * 100 + "%",
-                "opacity": Math.random() + 0.5,
-                "transform": "rotate(" + Math.random() * 360 + "deg)"
-            }).appendTo('.confet');
-
-            drop(i);
-        }
-
-        function drop(x) {
-            $('.confetti-' + x).animate({
-                top: "100%",
-                left: "+=" + Math.random() * 15 + "%"
-            }, Math.random() * 3000 + 3000, function () {
-                reset(x);
-            });
-        }
-
-        function reset(x) {
-            $('.confetti-' + x).animate({
-                "top": -Math.random() * 20 + "%",
-                "left": "-=" + Math.random() * 15 + "%"
-            }, 0, function () {
-                drop(x);
-            });
-        }
     </script>
 </body>
 
