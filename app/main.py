@@ -141,6 +141,9 @@ def edit_schedule():
                 user_info["id"], user_info["name"], hits+1, schedule)
         else:
             flash("Your account has been rate limited.", "danger")
+
+        return redirect(url_for("home"))
+        
     user = database.get_user(user_info["id"])
     schedule = user["schedule"] if user else ""
 
