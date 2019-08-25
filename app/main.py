@@ -148,7 +148,7 @@ def edit_schedule():
     user = database.get_user(user_info["id"])
     schedule = user["schedule"] if user else ""
 
-    return redirect(url_for("home"))
+    return render_template("edit.html", schedule=schedule)
 
 
 @app.route("/upload", methods=["GET", "POST"])
@@ -212,7 +212,7 @@ def upload_schedule():
             flash("Something went wrong", "danger")
             return redirect(url_for("upload_schedule"))
 
-    return redirect(url_for("home"))
+    return render_template("upload.html")
 
 
 @app.route("/faq")
