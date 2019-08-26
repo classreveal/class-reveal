@@ -23,7 +23,7 @@ google_bp = make_google_blueprint(
 app.register_blueprint(google_bp, url_prefix="/login")
 RATE_TIME = os.environ.get("RATE_TIME")
 RATE_NUM = os.environ.get("RATE_NUM")
-
+WEBHOOK = os.environ.get("WEBHOOK")
 
 def catch_and_log_out(func):
     @wraps(func)
@@ -144,7 +144,7 @@ def edit_schedule():
                 PARAMS = {'username': "ClassRevealBot", "avatar_url": "https://classreveal.com/static/img/favicon.png",
                           "content": user_info['name'] + " (" + str(13-(int(user_info['email'][:2])-int(datetime.now().year-2000))) + "th grade) joined Class Reveal @ " + str(datetime.now())}
                 requests.post(
-                    url='https://discordapp.com/api/webhooks/615634635430559815/hrfBHI7CccN5njOsKJa122ak9Rr8_KJWQZHW5vIbCtf8c05TyKm9a8l_bu93R4hOGXsL', data=PARAMS)
+                    url=WEBHOOK, data=PARAMS)
 
             database.add_user(
                 user_info["id"], user_info["name"], hits+1, schedule)
@@ -212,7 +212,7 @@ def upload_schedule():
                     PARAMS = {'username': "ClassRevealBot", "avatar_url": "https://classreveal.com/static/img/favicon.png",
                             "content": user_info['name'] + " (" + str(13-(int(user_info['email'][:2])-int(datetime.now().year-2000))) + "th grade) joined Class Reveal @ " + str(datetime.now())}
                     requests.post(
-                        url='https://discordapp.com/api/webhooks/615634635430559815/hrfBHI7CccN5njOsKJa122ak9Rr8_KJWQZHW5vIbCtf8c05TyKm9a8l_bu93R4hOGXsL', data=PARAMS)
+                        url=WEBHOOK, data=PARAMS)
 
                 database.add_user(
                     user_info["id"], user_info["name"], hits+1, schedule)
