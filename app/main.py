@@ -5,11 +5,11 @@ from functools import wraps
 from werkzeug.utils import secure_filename
 from flask_dance.contrib.google import make_google_blueprint, google
 from datetime import datetime
-# import dateutil.parser as dp
 import time
 import database
 import pdf
 import pymongo
+import requests
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "/tmp/uploads"
@@ -140,12 +140,17 @@ def edit_schedule():
             for i in range(8):
                 schedule[str(i)] = {
                     "teacher_name": f"{request.form.get('t' + str(i))}"}
+            if user == None:
+                PARAMS = {'username': "ClassRevealBot", "avatar_url": "https://classreveal.com/static/img/favicon.png",
+                          "content": user_info['name'] + " (" + str(13-(int(user_info['email'][:2])-int(datetime.now().year-2000))) + "th grade) joined Class Reveal @ " + str(datetime.now())}
+                requests.post(
+                    url='https://discordapp.com/api/webhooks/615634635430559815/hrfBHI7CccN5njOsKJa122ak9Rr8_KJWQZHW5vIbCtf8c05TyKm9a8l_bu93R4hOGXsL', data=PARAMS)
+
             database.add_user(
                 user_info["id"], user_info["name"], hits+1, schedule)
         else:
             flash("Your account has been rate limited.", "danger")
         return redirect(url_for("home"))
-
     user = database.get_user(user_info["id"])
     schedule = user["schedule"] if user else ""
 
@@ -203,6 +208,12 @@ def upload_schedule():
                     hits = user['hits']
 
             if hits < int(RATE_NUM):
+                if user == None:
+                    PARAMS = {'username': "ClassRevealBot", "avatar_url": "https://classreveal.com/static/img/favicon.png",
+                            "content": user_info['name'] + " (" + str(13-(int(user_info['email'][:2])-int(datetime.now().year-2000))) + "th grade) joined Class Reveal @ " + str(datetime.now())}
+                    requests.post(
+                        url='https://discordapp.com/api/webhooks/615634635430559815/hrfBHI7CccN5njOsKJa122ak9Rr8_KJWQZHW5vIbCtf8c05TyKm9a8l_bu93R4hOGXsL', data=PARAMS)
+
                 database.add_user(
                     user_info["id"], user_info["name"], hits+1, schedule)
             else:
