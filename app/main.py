@@ -63,7 +63,7 @@ def home():
         return redirect(url_for("edit_schedule"))
 
     schedule = user["schedule"]
-    flash("We hope you like Class Reveal. You can help improve it by sharing it. More shares eqauates to a more thorough roster for everyone. It's science!", "success")
+    flash("We hope you like Class Reveal. You can help improve it by sharing it. More shares equates to a more thorough roster for everyone. It's science!", "success")
 
     for i in range(8):
         classmates = []
