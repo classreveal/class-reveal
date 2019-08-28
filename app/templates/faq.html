@@ -95,7 +95,6 @@
                     <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                     {%- if user_id -%}
                     <a class="nav-link" href="{{ url_for('edit_schedule') }}">Edit</a>
-                    <a class="nav-link" href="{{ url_for('upload_schedule') }}">Upload</a>
                     {%- endif -%}
                     <a class="nav-link active" href="{{ url_for('faq') }}">FAQ</a>
                     {%- if user_id -%}
@@ -159,24 +158,6 @@
                             has been maintained in the past by Bharath Hegde, Peter Wu, Spencer Hua, and Serena
                             Chang. This years site has been renovated and constructed by Daniel Wang, Rahul Shah, Akash
                             Bobba, and Krish Thawani. The custodians for 2020-2021 are TBA...
-                        </div>
-                    </div>
-                </div>
-                <div class="card bg-light">
-                    <div class="card-header" role="tab" id="heading4">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapse4"
-                            aria-expanded="false" aria-controls="collapse4">
-                            <h5 class="mb-0">
-                                My PDF won't load. <i class="fas fa-angle-down rotate-icon"></i>
-                            </h5>
-                        </a>
-                    </div>
-                    <div id="collapse4" class="collapse" role="tabpanel" aria-labelledby="heading4"
-                        data-parent="#accordionEx">
-                        <div class="card-body">
-                            Class Reveal requires that you upload the <b>list</b> schedule from Genesis as opposed
-                            to the block schedule. More instructions on how to upload can be found at <a
-                                href="{{ url_for('upload_schedule') }}">/upload</a>.
                         </div>
                     </div>
                 </div>

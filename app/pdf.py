@@ -29,6 +29,10 @@ def parse_pdf(text):
             del schedule[num]
             teacher_name = "Study Hall"
 
+        if "Study Hall," in course:
+            del schedule[num]
+            teacher_name = "Study Hall"
+
         result[str(num)] = {"teacher_name": f"{teacher_name}"}
 
     return result if "Student Schedule" in text else ""
