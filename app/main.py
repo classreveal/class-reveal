@@ -71,7 +71,7 @@ def home():
 
         for classmate in course:
             classmates.append(classmate["name"])
-
+        classmates.sort()
         schedule[str(i)]["classmates"] = classmates
 
     return render_template("view.html", name=user_info["name"], user_id=user_info["id"], schedule=schedule)
@@ -117,7 +117,7 @@ def edit_schedule():
 
     user_info = google.get("/oauth2/v1/userinfo").json()
     user = database.get_user(user_info["id"])
-
+    flash("If you have an advanced science lab during Study Hall, enter Study Hall.", "warning")
     try:
         if int(user_info['email'][:2]) + 2000 > int(datetime.now().year) + 4:
             flash("Middle school students are restricted to the manual entry option. Fill in your schedule with all periods (offteam and team) with the exception of Flex and lunch.", "warning")
