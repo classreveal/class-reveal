@@ -7,11 +7,11 @@ Class-Reveal is a web application that allows students to submit schedules and d
 ## Stats
 Users: 2167
 
-Total User Hours Spent: 65 Days 1 Hour 
+Total User Hours Spent: 76 Days, 16 Hours
 
-Page Views: 49483
+Page Views: 71005
 
-Session Count: 18609 
+Session Count: 30589 
 
 Avg. Session Duration: 5 Min 2 Sec
 
