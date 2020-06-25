@@ -1,5 +1,5 @@
 # class-reveal
-The official Class Reveal repository.
+The Class Reveal 2019-2020 school year web server repository.
 
 ## Overview
 Class-Reveal is a web application that allows students to submit schedules and determine who's in their classes prior to the start of school. Visit https://classreveal.com/faq for more information.
