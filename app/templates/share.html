@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="The easiest way to share schedules and find out who's in your classes!">
+  <title>Share · ClassReveal</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+  <meta name="theme-color" content="#563d7c">
+
+  <meta property="og:image" content="{{ url_for('static', filename='img/banner.png') }}">
+  <meta property="og:description" content="The easiest way to share schedules and find out who's in your classes!">
+  <meta property="og:url" content="https://classreveal.com">
+  <meta property="og:title" content="ClassReveal">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="text-center">
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+      <div class="inner">
+        <h3 class="masthead-brand">ClassReveal</h3>
+        <nav class="nav nav-masthead justify-content-center">
+          <a class="nav-link" href="/">Home</a>
+          {%- if current_user.is_authenticated -%}
+          <a class="nav-link" href="{{ url_for('edit') }}">Edit</a>
+          <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
+          {%- endif -%}
+        </nav>
+      </div>
+    </header>
+
+    <main role="main" class="inner cover">
+      <h3 class="cover-heading">{{ name }}'s Schedule</h3>
+      <br>
+      <table class="table text-light">
+        <thead>
+          <tr>
+            <th scope="col">Period</th>
+            <th scope="col">Teacher</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for teacher in schedule.values() -%}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ teacher }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </main>
+    <footer class="mastfoot mt-auto">
+      <div class="inner">
+        <p class="lead">Made by Daniel Wang, Rahul Shah, Akash Bobba and Krish Thawani.</p>
+        <p class="lead">Email questions to: <a href="mailto:team@classreveal.com">team@classreveal.com</a>.</p>
+      </div>
+    </footer>
+  </div>
+</body>
+
+</html>

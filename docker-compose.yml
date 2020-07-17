@@ -1,8 +1,26 @@
-version: '3'
+version: "3"
 services:
-  class-reveal:
-    build: .
-    env_file:
-    - app/.env
-    ports:
-      - "80:80"
+  app:
+    build: ./
+    restart: always
+    env_file: app/.env
+    ports: [127.0.0.1:8000:80]
+    depends_on:
+      - db
+    networks:
+        default:
+        internal:
+
+  db:
+    image: mariadb
+    restart: always
+    env_file: app/.env
+    volumes: [.data/mysql:/var/lib/mysql]
+    networks:
+        internal:
+    command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0]
+
+networks:
+    default:
+    internal:
+        internal: true

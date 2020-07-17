@@ -3,224 +3,102 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>ClassReveal | View</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="The easiest way to share schedules and find out who's in your classes!">
+    <title>View · ClassReveal</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
-    <meta name="description"
-        content="The easiest way to share schedules and find out who's in your classes! Made for West Windsor-Plainsboro (WW-P) high school students.">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <style>
-        html,
-        body {
-            height: 100%;
-            background-color: #333;
-        }
+    <meta name="theme-color" content="#563d7c">
 
-        body {
-            display: -ms-flexbox;
-            display: flex;
-            color: #fff;
-            text-align: center;
-        }
-
-        .cover-container {
-            max-width: 42em;
-        }
-
-        .black {
-            color: black;
-        }
-
-        .masthead {
-            margin-bottom: 2rem;
-        }
-
-        .masthead-brand {
-            margin-bottom: 0;
-        }
-
-        .nav-masthead .nav-link {
-            padding: .25rem 0;
-            font-weight: 700;
-            color: rgba(255, 255, 255, .5);
-            background-color: transparent;
-            border-bottom: .25rem solid transparent;
-        }
-
-        .nav-masthead .nav-link:hover,
-        .nav-masthead .nav-link:focus {
-            border-bottom-color: rgba(255, 255, 255, .25);
-        }
-
-        .nav-masthead .nav-link+.nav-link {
-            margin-left: 1rem;
-        }
-
-        .nav-masthead .active {
-            color: #fff;
-            border-bottom-color: #fff;
-        }
-
-        @media (min-width: 48em) {
-            .masthead-brand {
-                float: left;
-            }
-
-            .nav-masthead {
-                float: right;
-            }
-        }
-
-        .cover {
-            padding: 0 1.5rem;
-        }
-
-        .cover .btn-lg {
-            padding: .75rem 1.25rem;
-        }
-
-        .mastfoot {
-            color: rgba(255, 255, 255, .5);
-        }
-
-        .card-deck {
-            padding-bottom: 30px;
-        }
-
-        @media (max-width: 480px) {
-            .card-deck {
-                padding-bottom: 0px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body class="text-center">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand" href="/">ClassReveal</h3>
+                <h3 class="masthead-brand">ClassReveal</h3>
                 <nav class="nav nav-masthead justify-content-center">
-                    <a class="nav-link active" href="{{ url_for('home') }}">Home</a>
-                    {%- if user_id -%}
-                    <a class="nav-link" href="{{ url_for('edit_schedule') }}">Edit</a>
-                    {%- endif -%}
-                    <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a>
-                    {%- if user_id -%}
+                    <a class="nav-link active" href="/">Home</a>
+                    <a class="nav-link" href="{{ url_for('edit') }}">Edit</a>
                     <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
-                    {%- endif -%}
                 </nav>
             </div>
         </header>
+
         <main role="main" class="inner cover">
-
-                {%- with messages = get_flashed_messages(with_categories=true) -%}
-                {%- if messages -%}
-                {%- for category, message in messages -%}
-                <br>
-                <div class="alert alert-{{category}}" role="alert">
-                    {{ message }}
-                </div>
-                {%- endfor -%}
-                {%- endif -%}
-                {%- endwith -%}
+            <h3 class="cover-heading">{{ name }}'s Schedule</h3>
             <br>
-            <br>
-            <h3>{{ name }}'s Schedule</h3>
-            <br>
-
-            {%- if user_id -%}
             <div class="dropdown">
-                <button class="btn btn-block btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-block btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
                     Select Period
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {%- for course in schedule.values() -%}
-                    <a class="dropdown-item" id="nav-t{{ loop.index0 }}-tab" data-toggle="tab"
-                        href="#nav-t{{ loop.index0 }}" role="tab" aria-controls="nav-t{{ loop.index0 }}"
-                        onclick="clearActive('nav-t{{ loop.index0 }}-tab');">{{ loop.index }} -
-                        {{ course["teacher_name"] }}</a>
+                <div class="dropdown-menu">
+                    {%- for period, course in schedule.items() -%}
+                    {%- for teacher in course.keys() -%}
+                    <a class="dropdown-item {% if period == 1 %} active {%- endif -%}"
+                        id="nav-t{{ period }}">{{ period }}
+                        - {{ teacher }}</a>
+                    {%- endfor -%}
                     {%- endfor -%}
                 </div>
             </div>
             <br>
-            <div class="card black">
+            <div class="card" style="color: black">
                 <div class="card-body">
-                    <div class="tab-content" id="myTabContent">
-                        {%- for course in schedule.values() -%}
-                        <div class="tab-pane fade show" id="nav-t{{ loop.index0 }}" role="tabpanel"
-                            aria-labelledby="nav-t{{ loop.index0 }}-tab">
-                            <h5 class="card-header">{{ loop.index }} - {{ course["teacher_name"] }}</h5>
+                    <div class="tab-content">
+                        {%- for period, course in schedule.items() -%}
+                        {%- for teacher, classmates in course.items() -%}
+                        <div class="tab-pane fade show {% if period == 1 %} active {%- endif -%}"
+                            id="nav-t{{ period }}-card" role="tabpanel">
+                            <h5 class="card-header">{{ period }} - {{ teacher }}</h5>
                             <ul class="list-group">
-                                {%- for classmate in course["classmates"] %}
+                                {%- for classmate in classmates %}
                                 <li class="list-group-item">{{ classmate }}</li>
                                 {%- endfor -%}
                             </ul>
                         </div>
+                        {%- endfor -%}
                         {%- endfor -%}
                     </div>
                 </div>
             </div>
             <br>
             <br>
-            {%- endif -%}
-
-            {%- if not user_id -%}
-            <table class="table text-light">
-                <thead>
-                    <tr>
-                        <th scope="col">Period</th>
-                        <th scope="col">Teacher</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for course in schedule.values() %}
-                    <tr>
-                        <th scope="row">{{ loop.index }}</th>
-                        <td>{{ course["teacher_name"] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {%- endif -%}
+            <p class="lead">Your share link:
+                <code><a href="{{ url_for('share', provider_user_id=provider_user_id) }}">{{ url_for("share", provider_user_id=provider_user_id) }}</a></code>
+            </p>
         </main>
-        {%- if user_id -%}
-        <p class="lead">Your share link:
-            <code><a href="{{ url_for('view', user_id=user_id) }}">{{ url_for("view", user_id=user_id) }}</a></code></p>
-        {%- endif -%}
+
         <footer class="mastfoot mt-auto">
             <div class="inner">
-                <p>Made by Daniel Wang, Rahul Shah, Akash Bobba and Krish Thawani</p>
-                <p>Email any questions to: <a href="mailto:team@classreveal.com">team@classreveal.com</a></p>
+                <p class="lead">Made by Daniel Wang, Rahul Shah, Akash Bobba and Krish Thawani.</p>
+                <p class="lead">Email questions to: <a href="mailto:team@classreveal.com">team@classreveal.com</a>.</p>
             </div>
         </footer>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146166505-1"></script>
+
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'UA-146166505-1');
-        $('#nav-t0-tab, #nav-t0').addClass("active");
-        function clearActive(val) {
-            menu = document.getElementsByClassName('dropdown-item')
-            for (var i = 0; i < menu.length; i++) {
-                console.log(menu[i])
-                menu[i].classList.remove('active')
-            }
-        }
+        $(document).ready(function () {
+            $("a").click(function () {
+                $(".active").removeClass("active");
+                $(this).addClass("active");
+                $("#" + $(this).attr("id") + "-card").addClass("active");
+            });
+        });
     </script>
 </body>
 

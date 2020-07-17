@@ -3,144 +3,56 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>ClassReveal | Edit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="The easiest way to share schedules and find out who's in your classes!">
+    <title>Edit · ClassReveal</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
-    <meta name="description"
-        content="The easiest way to share schedules and find out who's in your classes! Made for West Windsor-Plainsboro (WW-P) high school students.">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <style>
-        html,
-        body {
-            height: 100%;
-            background-color: #333;
-        }
+    <meta name="theme-color" content="#563d7c">
 
-        body {
-            display: -ms-flexbox;
-            display: flex;
-            color: #fff;
-            text-align: center;
-        }
-
-        .black {
-            color: black;
-        }
-
-        .cover-container {
-            max-width: 42em;
-        }
-
-        .masthead {
-            margin-bottom: 2rem;
-        }
-
-        .masthead-brand {
-            margin-bottom: 0;
-        }
-
-        .nav-masthead .nav-link {
-            padding: .25rem 0;
-            font-weight: 700;
-            color: rgba(255, 255, 255, .5);
-            background-color: transparent;
-            border-bottom: .25rem solid transparent;
-        }
-
-        .nav-masthead .nav-link:hover,
-        .nav-masthead .nav-link:focus {
-            border-bottom-color: rgba(255, 255, 255, .25);
-        }
-
-        .nav-masthead .nav-link+.nav-link {
-            margin-left: 1rem;
-        }
-
-        .nav-masthead .active {
-            color: #fff;
-            border-bottom-color: #fff;
-        }
-
-        @media (min-width: 48em) {
-            .masthead-brand {
-                float: left;
-            }
-
-            .nav-masthead {
-                float: right;
-            }
-        }
-
-        .cover {
-            padding: 0 1.5rem;
-        }
-
-        .cover .btn-lg {
-            padding: .75rem 1.25rem;
-        }
-
-        .mastfoot {
-            color: rgba(255, 255, 255, .5);
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body class="text-center">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand" href="/">ClassReveal</h3>
+                <h3 class="masthead-brand">ClassReveal</h3>
                 <nav class="nav nav-masthead justify-content-center">
-                    <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-                    {%- if user_id -%}
-                    <a class="nav-link active" href="{{ url_for('edit_schedule') }}">Edit</a>
-                    {%- endif -%}
-                    <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a>
-                    {%- if user_id -%}
+                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link active" href="{{ url_for('edit') }}">Edit</a>
                     <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
-                    {%- endif -%}
                 </nav>
             </div>
         </header>
 
-        <br>
-        {%- with messages = get_flashed_messages(with_categories=true) -%}
-        {%- if messages -%}
-        {%- for category, message in messages -%}
-        <div class="alert alert-{{category}}" role="alert">
-            {{ message }}
-        </div>
-        {%- endfor -%}
-        {%- endif -%}
-        {%- endwith -%}
         <main role="main" class="inner cover">
-            <h3>Edit Schedule</h3>
+            <h3 class="cover-heading">Edit Schedule</h3>
             <br>
-            <form method="post" >
-                {% if schedule %}
-                {%- for course in schedule.values() -%}
+            {%- with messages = get_flashed_messages(with_categories=true) -%}
+            {%- if messages -%}
+            {%- for category, message in messages -%}
+            <div class="alert alert-{{category}}" role="alert">
+                {{ message }}
+            </div>
+            <br>
+            {%- endfor -%}
+            {%- endif -%}
+            {%- endwith -%}
+            <form method="post">
+                {%- for teacher in schedule.values()-%}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">Period {{ loop.index }}:</span>
+                        <span class="input-group-text">Period {{ loop.index }}:</span>
                     </div>
-                    <input name="t{{ loop.index0 }}" id="t{{ loop.index0 }}" class="teacher form-control" type="text"
-                        value="{{ course['teacher_name'] }}" autocomplete="off" data-provide="typeahead" required pattern="[A-Za-z0-9 _.,'-]*" onchange="validate('t{{ loop.index0 }}')">
+                    <input name="period_{{ loop.index }}" class="form-control" type="text" value="{{ teacher }}" autocomplete="off" required>
                 </div>
                 <br>
                 {%- endfor -%}
-                {%- endif -%}
-                {%- for i in range (8) if not schedule -%}
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">Period {{ loop.index }}:</span>
-                    </div>
-                    <input name="t{{ loop.index0 }}" id="t{{ loop.index0 }}" class="teacher form-control" type="text"
-                        placeholder="Search" autocomplete="off" data-provide="typeahead" required pattern="[A-Za-z0-9 _.,'-]*" onchange="validate('t{{ loop.index0 }}')">
-                </div>
-                <br>
-                {% endfor %}
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-lg btn-primary">Submit</button>
                 <br>
                 <br>
             </form>
@@ -148,42 +60,11 @@
 
         <footer class="mastfoot mt-auto">
             <div class="inner">
-                <p>Made by Daniel Wang, Rahul Shah, Akash Bobba and Krish Thawani</p>
-                <p>Email any questions to: <a href="mailto:team@classreveal.com">team@classreveal.com</a></p>
+                <p class="lead">Made by Daniel Wang, Rahul Shah, Akash Bobba and Krish Thawani.</p>
+                <p class="lead">Email questions to: <a href="mailto:team@classreveal.com">team@classreveal.com</a>.</p>
             </div>
         </footer>
     </div>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146166505-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'UA-146166505-1');
-    </script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"
-        integrity="sha256-LOnFraxKlOhESwdU/dX+K0GArwymUDups0czPWLEg4E=" crossorigin="anonymous"></script>
-    <script>
-         teachers = {}
-        $.get("{{ url_for('static', filename='json/teachers.json') }}", function (data) {
-            $(".teacher").typeahead({ source: data });
-            teachers = data
-        }, 'json');
-         function validate(val) {
-            test = false
-            name = document.getElementById(val).value
-            for (var id in teachers) {
-                if (name == teachers[id]) {
-                    test = true
-                    break
-                }
-            }
-            if (!test) {
-                document.getElementById(val).value = 'Omitted'
-            }
-        }
-    </script>
 </body>
 
 </html>
