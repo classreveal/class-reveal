@@ -17,12 +17,12 @@ blueprint = make_google_blueprint(
 @oauth_authorized.connect_via(blueprint)
 def google_logged_in(blueprint, token):
     if not token:
-        flash("Failed to log in.", category="error")
+        flash("Failed to log in.", category="danger")
         return False
 
     resp = blueprint.session.get("/oauth2/v1/userinfo")
     if not resp.ok:
-        flash("Failed to fetch user info.", category="error")
+        flash("Failed to fetch user info.", category="danger")
         return False
 
     info = resp.json()
@@ -32,7 +32,7 @@ def google_logged_in(blueprint, token):
         or info["hd"] != "wwprsd.org"
         and info["hd"] != "gapps.brrsd.k12.nj.us"
     ):
-        flash("You must sign in with your school email.", category="error")
+        flash("You must sign in with your school email.", category="danger")
         return False
 
     query = OAuth.query.filter_by(provider=blueprint.name, provider_user_id=info["id"])
@@ -61,5 +61,5 @@ def google_logged_in(blueprint, token):
 def google_error(blueprint, message, response):
     flash(
         f"OAuth error from {blueprint.name}! message={message} response={response}",
-        category="error",
+        category="danger",
     )
