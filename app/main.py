@@ -29,15 +29,19 @@ def home():
 
         for idx, (key, value) in enumerate(schedule.items(), start=1):
             records = (
-                db.session.query(Schedule).filter(getattr(Schedule, key) == value).all()
+                db.session.query(Schedule)
+                .join(User)
+                .filter(
+                    getattr(Schedule, key) == value,
+                    User.district == current_user.district,
+                )
+                .all()
             )
+
             classmates[idx] = {value: [record.user.name for record in records]}
 
         return render_template(
-            "view.html",
-            name=current_user.name,
-            schedule=classmates,
-            provider_user_id=current_user.oauth.provider_user_id,
+            "view.html", name=current_user.name, schedule=classmates,
         )
     else:
         return render_template("home.html")
@@ -62,12 +66,3 @@ def edit():
         return redirect(url_for("home"))
 
     return render_template("edit.html", schedule=current_user.schedule.get())
-
-
-@app.route("/share/<provider_user_id>")
-def share(provider_user_id):
-    oauth = OAuth.query.filter_by(provider_user_id=provider_user_id).first_or_404()
-
-    return render_template(
-        "share.html", name=oauth.user.name, schedule=oauth.user.schedule.get()
-    )

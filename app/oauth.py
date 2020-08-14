@@ -11,7 +11,6 @@ blueprint = make_google_blueprint(
     scope=["profile", "email"],
     storage=SQLAlchemyStorage(OAuth, db.session, user=current_user),
     reprompt_select_account=True,
-    hosted_domain="wwprsd.org"
 )
 
 
@@ -23,14 +22,17 @@ def google_logged_in(blueprint, token):
 
     resp = blueprint.session.get("/oauth2/v1/userinfo")
     if not resp.ok:
-        msg = "Failed to fetch user info."
-        flash(msg, category="error")
+        flash("Failed to fetch user info.", category="error")
         return False
 
     info = resp.json()
 
-    if "hd" not in info or info["hd"] != "wwprsd.org":
-        flash("Failed to validate hosted domain.", category="error")
+    if (
+        "hd" not in info
+        or info["hd"] != "wwprsd.org"
+        and info["hd"] != "gapps.brrsd.k12.nj.us"
+    ):
+        flash("You must sign in with your school email.", category="error")
         return False
 
     query = OAuth.query.filter_by(provider=blueprint.name, provider_user_id=info["id"])
@@ -42,7 +44,8 @@ def google_logged_in(blueprint, token):
     if oauth.user:
         login_user(oauth.user)
     else:
-        user = User(email=info["email"], name=info["name"])
+        district = 0 if info["hd"] == "wwprsd.org" else 1
+        user = User(email=info["email"], name=info["name"], district=district)
         schedule = Schedule(user=user)
         oauth.user = user
 
@@ -56,5 +59,7 @@ def google_logged_in(blueprint, token):
 
 @oauth_error.connect_via(blueprint)
 def google_error(blueprint, message, response):
-    msg = f"OAuth error from {blueprint.name}! message={message} response={response}"
-    flash(msg, category="error")
+    flash(
+        f"OAuth error from {blueprint.name}! message={message} response={response}",
+        category="error",
+    )

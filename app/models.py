@@ -9,6 +9,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(256), unique=True)
     name = db.Column(db.String(256))
+    district = db.Column(db.Integer)
     schedule = db.relationship("Schedule", uselist=False)
     oauth = db.relationship("OAuth", uselist=False)
 
@@ -26,6 +27,7 @@ class Schedule(db.Model):
     period_6 = db.Column(db.String(256))
     period_7 = db.Column(db.String(256))
     period_8 = db.Column(db.String(256))
+    period_9 = db.Column(db.String(256))
 
     def get(self):
         schedule = {
@@ -33,6 +35,9 @@ class Schedule(db.Model):
             for key, value in sorted(self.__dict__.items())
             if str(key).startswith("period")
         }
+
+        if self.user.district == 0:
+            schedule.pop("period_9")
 
         return schedule
 
