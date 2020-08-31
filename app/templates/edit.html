@@ -24,8 +24,12 @@
                 <h3 class="masthead-brand">ClassReveal</h3>
                 <nav class="nav nav-masthead justify-content-center">
                     <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a>
+                    {%- if user -%}
+                    <a class="nav-link" href="{{ url_for('view') }}">View</a>
                     <a class="nav-link active" href="{{ url_for('edit') }}">Edit</a>
-                    <a class="nav-link" href="{{ url_for('logout') }}">Sign Out</a>
+                    <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
+                    {%- endif -%}
                 </nav>
             </div>
         </header>
@@ -82,6 +86,13 @@
             $(".typeahead").typeahead({ source: data });
         }, 'json');
     </script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146166505-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'UA-146166505-1');
+        </script>
 </body>
 
 </html>
