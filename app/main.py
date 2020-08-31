@@ -64,5 +64,5 @@ def edit():
         db.session.commit()
 
         return redirect(url_for("home"))
-
-    return render_template("edit.html", schedule=current_user.schedule.get())
+    districtjson = "json/wwp.json" if current_user.district==0 else "json/br.json"
+    return render_template("edit.html", schedule=current_user.schedule.get(), districtjson=districtjson)

@@ -1,5 +1,4 @@
-html,
-body {
+html, body {
   height: 100%;
   background-color: #333;
 }
@@ -22,8 +21,7 @@ body {
   border-bottom: .25rem solid transparent;
 }
 
-.nav-masthead .nav-link:hover,
-.nav-masthead .nav-link:focus {
+.nav-masthead .nav-link:hover, .nav-masthead .nav-link:focus {
   border-bottom-color: rgba(255, 255, 255, .25);
 }
 
@@ -40,7 +38,6 @@ body {
   .masthead-brand {
     float: left;
   }
-
   .nav-masthead {
     float: right;
   }
@@ -57,3 +54,8 @@ body {
 .mastfoot {
   color: rgba(255, 255, 255, .5);
 }
+
+.twitter-typeahead, .tt-hint, .tt-input, .tt-menu {
+  width: 100%;
+}
+
