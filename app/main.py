@@ -6,7 +6,9 @@ from models import db, login_manager, OAuth, User, Schedule
 from oauth import blueprint
 from cli import create_db
 from werkzeug.exceptions import HTTPException
-
+import os
+from datetime import datetime
+import requests
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -15,6 +17,7 @@ app.cli.add_command(create_db)
 db.init_app(app)
 limiter = Limiter(app, key_func=lambda: current_user.id)
 login_manager.init_app(app)
+WEBHOOK = os.environ.get("WEBHOOK")
 
 
 @app.route("/")
@@ -69,7 +72,9 @@ def edit():
         for period, teacher in request.form.to_dict().items():
             setattr(current_user.schedule, period, teacher)
         db.session.commit()
-
+        district = ("WW-P" if current_user.district == 0 else "BR")
+        PARAMS = {'username': "ClassRevealBot", "avatar_url": "https://classreveal.com/static/img/favicon.png", "content": f"{current_user.name} ({district}) submitted a schedule @ {datetime.now()}"}
+        requests.post(url=WEBHOOK, data=PARAMS)
         return redirect(url_for("view"))
     districtjson = "json/wwp.json" if current_user.district==0 else "json/br.json"
     return render_template("edit.html", schedule=current_user.schedule.get(), districtjson=districtjson, user=current_user.is_authenticated)
@@ -82,4 +87,4 @@ def handle_exception(e):
         message = "429 - It appears you have submitted too many requests."
     else:
         message = f"{e.code} - A server error occured. Please try again."
-    return render_template("error.html", error=message)
+    return render_template("error.html", error=message, user=current_user.is_authenticated)
