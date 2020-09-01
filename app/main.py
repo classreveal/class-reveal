@@ -4,6 +4,7 @@ from flask_login import current_user, login_required, logout_user
 from config import Config
 from models import db, login_manager, OAuth, User, Schedule
 from oauth import blueprint
+from sqlalchemy import func
 from cli import create_db
 from datetime import datetime
 import requests
@@ -38,7 +39,7 @@ def view():
                 db.session.query(Schedule)
                 .join(User)
                 .filter(
-                    getattr(Schedule, key) == value,
+                    func.lower(getattr(Schedule, key)) == func.lower(value),
                     User.district == current_user.district,
                 )
                 .all()
