@@ -1,5 +1,4 @@
-html,
-body {
+html, body {
     height: 100%;
     background-color: #f4f4ff;
 }
@@ -14,9 +13,6 @@ h1 {
     font-weight: bold;
 }
 
-a {
-    color: black;
-}
 
 .lead a {
     color: #0275d8;
@@ -30,13 +26,41 @@ p {
     margin: 0;
     padding-bottom: 1em;
 }
-
-.btn-outline-dark {
-    border: 4px solid;
-    border-radius: 0px;
-    font-weight: bold;
+@media (min-width: 768px) {
+    main:not(.cover-home){
+        margin-top: 5rem!important;
+    }
+}
+@media (max-width: 767px) {
+    main:not(.cover-home){
+        margin-top: 1.5rem!important;
+    }
 }
 
+
+.btn-outline-dark {
+    border: 3px solid;
+    border-radius: 0px;
+    font-weight: bold;
+    border-color: black;
+    color: black;
+}
+
+.btn-outline-dark:hover, .btn-outline-dark:active {
+    border-color: rgb(22, 22, 22);
+    background-color: rgb(22, 22, 22);
+}
+
+#editSubmit{
+    border: 2px solid;
+    border-radius: 0px;
+    font-weight: 600;
+    border-color: black;
+    color: black;
+}
+#editSubmit:hover, #editSubmit:active {
+    color: white;
+}
 .animate-down {
     animation: animateText 1000ms cubic-bezier(0.23, 1, 0.32, 1);
     /* margin: 0 6em; */
@@ -48,10 +72,14 @@ p {
     border-bottom-color: rgb(0, 0, 0, 0.25);
     background-color: transparent;
     border-bottom: .25rem solid transparent;
+    color: black;
 }
 
-.nav-masthead .nav-link:hover,
-.nav-masthead .nav-link:focus {
+.nav-link:hover {
+    color: black!important;
+}
+
+.nav-masthead .nav-link:hover, .nav-masthead .nav-link:focus {
     border-bottom-color: rgb(0, 0, 0, 0.25);
 }
 
@@ -61,12 +89,12 @@ p {
 
 .nav-masthead .active {
     color: black;
-    border-bottom-color: black;
+    border-bottom-color: black!important;
 }
 
-.cover {
+/* .cover {
     padding-top: 1.5rem;
-}
+} */
 
 .cover-home {
     margin-top: 5em;
@@ -84,20 +112,15 @@ p {
     border-bottom-color: rgb(0, 0, 0, 0.25);
 }
 
-.twitter-typeahead,
-.tt-hint,
-.tt-input,
-.tt-menu {
+.twitter-typeahead, .tt-hint, .tt-input, .tt-menu {
     width: 100%;
 }
-
 
 /* 
 .email-footer {} */
 
 .wave-container {
     text-align: center;
-    overflow: hidden;
 }
 
 @media (min-width: 48em) {
@@ -131,7 +154,7 @@ p {
 }
 
 .email-footer {
-    background-color: #FFD205;
+    background-color: #ffc107;
 }
 
 .mastfoot {
