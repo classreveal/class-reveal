@@ -48,15 +48,18 @@ def view():
             )
             zipped = list(zip([record.user.name for record in records], [record.user.virtual for record in records]))
             classmates[idx] = {value: zipped}
-        print(classmates)
         return render_template(
             "view.html", name=current_user.name, schedule=classmates, user=current_user.is_authenticated
         )
+    else:
+        return redirect(url_for("home"))
+
 
 
 @app.route("/logout")
-@login_required
 def logout():
+    if not current_user.is_authenticated:
+        return redirect(url_for("home"))
     logout_user()
     return redirect(url_for("home"))
 
@@ -67,11 +70,11 @@ def faq():
 
 
 @app.route("/edit", methods=["GET", "POST"])
-@limiter.limit("20/hour", methods=["POST"])
-@login_required
+@limiter.limit("4/hour", methods=["POST"])
 def edit():
+    if not current_user.is_authenticated:
+        return redirect(url_for("home"))
     if request.method == "POST":
-        print(request.form)
         for period, teacher in request.form.to_dict().items():
             if period == "virtual":
                 setattr(current_user, "virtual", int(0 if int(teacher) == 0 else 1))

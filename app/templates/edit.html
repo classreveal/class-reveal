@@ -40,31 +40,40 @@
                 <h3 class="cover-heading">Edit Schedule</h3>
                 <br> {%- with messages = get_flashed_messages(with_categories=true) -%} {%- if messages -%}
                 {%- for category, message in messages -%}
+                {%- if category=='info' -%}
+                {%- if message not in messages -%}
+
                 <div class="alert alert-{{category}}" role="alert">
                     {{ message }}
                 </div>
+                {%- endif -%}
+
+                {%- endif -%}
                 <br> {%- endfor -%} {%- endif -%} {%- endwith -%}
                 <form method="post">
                     <div class="input-group mb-4">
                         <label>Will you be attending school this fall virtually or through a hybrid/in-person
                             program?</label>
-
                         <select name="virtual" class="form-control" id="virtual" required>
-                            {% if virtual is defined %}
+                            {% if virtual == 1 or virtual == 0 %}
+                                {%-if virtual == 0 -%}
+                                    <option value=0 selected>Virtually</option>
+                                {%- else -%}
+                                    <option value=0>Virtually</option>
+                                {%- endif -%}
+
+                                {%-if virtual == 1 -%}
+                                    <option value=1 selected>Hybrid/In-person</option>
+                                {%- else -%}
+                                    <option value=1>Hybrid/In-person</option>
+                                {%- endif -%}
                             {%- else -%}
-                            <option selected disabled value="">Select one</option>
+                                <option selected disabled value="">Select one</option>
+                                <option value=0>Virtually</option>
+                                <option value=1>Hybrid/In-person</option>
                             {%- endif -%}
 
-                            {%-if virtual == 0 -%}
-                            <option value=0 selected>Virtually</option>
-                            {%- else -%}
-                            <option value=0>Virtually</option>
-                            {%- endif -%}
-                            {%-if virtual == 1 -%}
-                            <option value=1 selected>Hybrid/In-person</option>
-                            {%- else -%}
-                            <option value=1>Hybrid/In-person</option>
-                            {%- endif -%}
+
 
 
                         </select>
