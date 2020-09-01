@@ -45,6 +45,32 @@
                 </div>
                 <br> {%- endfor -%} {%- endif -%} {%- endwith -%}
                 <form method="post">
+                    <div class="input-group mb-4">
+                        <label>Will you be attending school this fall virtually or through a hybrid/in-person
+                            program?</label>
+
+                        <select name="virtual" class="form-control" id="virtual" required>
+                            {% if virtual is defined %}
+                            {%- else -%}
+                            <option selected disabled value="">Select one</option>
+                            {%- endif -%}
+
+                            {%-if virtual == 0 -%}
+                            <option value=0 selected>Virtually</option>
+                            {%- else -%}
+                            <option value=0>Virtually</option>
+                            {%- endif -%}
+                            {%-if virtual == 1 -%}
+                            <option value=1 selected>Hybrid/In-person</option>
+                            {%- else -%}
+                            <option value=1>Hybrid/In-person</option>
+                            {%- endif -%}
+
+
+                        </select>
+
+
+                    </div>
                     {%- for teacher in schedule.values()-%}
                     <div class="input-group mb-4">
                         <div class="input-group-prepend">

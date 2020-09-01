@@ -24,8 +24,9 @@ WEBHOOK = os.environ.get("WEBHOOK")
 def home():
     return render_template("home.html", user=current_user.is_authenticated)
 
+
 @app.route("/view")
-def view():    
+def view():
     if current_user.is_authenticated:
         schedule = current_user.schedule.get()
 
@@ -45,13 +46,12 @@ def view():
                 )
                 .all()
             )
-
-            classmates[idx] = {value: [record.user.name for record in records]}
-
+            zipped = list(zip([record.user.name for record in records], [record.user.virtual for record in records]))
+            classmates[idx] = {value: zipped}
+        print(classmates)
         return render_template(
             "view.html", name=current_user.name, schedule=classmates, user=current_user.is_authenticated
         )
-
 
 
 @app.route("/logout")
@@ -60,24 +60,32 @@ def logout():
     logout_user()
     return redirect(url_for("home"))
 
+
 @app.route('/faq')
 def faq():
     return render_template("faq.html", user=current_user.is_authenticated)
 
+
 @app.route("/edit", methods=["GET", "POST"])
-@limiter.limit("4/hour", methods=["POST"])
+@limiter.limit("20/hour", methods=["POST"])
 @login_required
 def edit():
     if request.method == "POST":
+        print(request.form)
         for period, teacher in request.form.to_dict().items():
+            if period == "virtual":
+                setattr(current_user, "virtual", int(0 if int(teacher) == 0 else 1))
+                continue
             setattr(current_user.schedule, period, teacher)
         db.session.commit()
         district = ("WW-P" if current_user.district == 0 else "BR")
-        PARAMS = {'username': "ClassRevealBot", "avatar_url": "https://classreveal.com/static/img/favicon.png", "content": f"{current_user.name} ({district}) submitted a schedule @ {datetime.now()}"}
+        PARAMS = {'username': "ClassRevealBot", "avatar_url": "https://classreveal.com/static/img/favicon.png",
+                  "content": f"{current_user.name} ({district}) submitted a schedule @ {datetime.now()}"}
         requests.post(url=WEBHOOK, data=PARAMS)
         return redirect(url_for("view"))
-    districtjson = "json/wwp.json" if current_user.district==0 else "json/br.json"
-    return render_template("edit.html", schedule=current_user.schedule.get(), districtjson=districtjson, user=current_user.is_authenticated)
+    districtjson = "json/wwp.json" if current_user.district == 0 else "json/br.json"
+    return render_template("edit.html", schedule=current_user.schedule.get(), districtjson=districtjson, user=current_user.is_authenticated, virtual=current_user.virtual)
+
 
 @app.errorhandler(Exception)
 def handle_exception(e):

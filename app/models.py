@@ -10,6 +10,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(256), unique=True)
     name = db.Column(db.String(256))
     district = db.Column(db.Integer)
+    # 0 - virtual, 1 - hybrid
+    virtual = db.Column(db.Integer)
     schedule = db.relationship("Schedule", uselist=False)
     oauth = db.relationship("OAuth", uselist=False)
 
@@ -18,7 +20,7 @@ class Schedule(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
     user = db.relationship(User)
-
+ 
     period_1 = db.Column(db.String(256))
     period_2 = db.Column(db.String(256))
     period_3 = db.Column(db.String(256))
