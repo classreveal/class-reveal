@@ -7,8 +7,7 @@
     <meta name="description" content="The easiest way to share schedules and find out who's in your classes!">
     <title>Error · ClassReveal</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
     <meta name="theme-color" content="#563d7c">
@@ -20,23 +19,21 @@
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand">ClassReveal</h3>
+                <h3 class="masthead-brand"><img src="{{ url_for('static', filename='img/banner.png') }}" height=50></h3>
                 <nav class="nav nav-masthead justify-content-center">
                     <a class="nav-link" href="/">Home</a>
-                    <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a>
-                    {%- if user -%}
+                    <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a> {%- if user -%}
                     <a class="nav-link" href="{{ url_for('view') }}">View</a>
                     <a class="nav-link" href="{{ url_for('edit') }}">Edit</a>
-                    <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
-                    {%- endif -%}
+                    <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a> {%- endif -%}
                 </nav>
             </div>
         </header>
 
         <main role="main" class="inner cover">
-           <p>{{error}}</p>
+            <p>{{error}}</p>
         </main>
-         
+
         <footer class="mastfoot mt-auto">
             <div class="inner">
                 <p class="lead">Email questions to: <a href="mailto:team@classreveal.com">team@classreveal.com</a>.</p>
@@ -46,7 +43,10 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146166505-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
         gtag('config', 'UA-146166505-1');
     </script>

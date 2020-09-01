@@ -7,8 +7,7 @@
     <meta name="description" content="The easiest way to share schedules and find out who's in your classes!">
     <title>View · ClassReveal</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
     <meta name="theme-color" content="#563d7c">
@@ -20,15 +19,13 @@
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand">ClassReveal</h3>
+                <h3 class="masthead-brand"><img src="{{ url_for('static', filename='img/banner.png') }}" height=50></h3>
                 <nav class="nav nav-masthead justify-content-center">
                     <a class="nav-link" href="/">Home</a>
-                    <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a>
-                    {%- if user -%}
+                    <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a> {%- if user -%}
                     <a class="nav-link active" href="{{ url_for('view') }}">View</a>
                     <a class="nav-link" href="{{ url_for('edit') }}">Edit</a>
-                    <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
-                    {%- endif -%}
+                    <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a> {%- endif -%}
                 </nav>
             </div>
         </header>
@@ -37,27 +34,21 @@
             <h3 class="cover-heading">{{ name }}'s Schedule</h3>
             <br>
             <div class="dropdown">
-                <button class="btn btn-block btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                <button class="btn btn-block btn-warning dropdown-toggle" type="button" data-toggle="dropdown">
                     Select Period
                 </button>
                 <div class="dropdown-menu">
-                    {%- for period, course in schedule.items() -%}
-                    {%- for teacher in course.keys() -%}
-                    <a class="dropdown-item {% if period == 1 %} active {%- endif -%}"
-                        id="nav-t{{ period }}">{{ period }}
-                        - {{ teacher }}</a>
-                    {%- endfor -%}
-                    {%- endfor -%}
+                    {%- for period, course in schedule.items() -%} {%- for teacher in course.keys() -%}
+                    <a class="dropdown-item {% if period == 1 %} active {%- endif -%}" id="nav-t{{ period }}">{{ period }}
+                        - {{ teacher }}</a> {%- endfor -%} {%- endfor -%}
                 </div>
             </div>
             <br>
             <div class="card" style="color: black">
                 <div class="card-body">
                     <div class="tab-content">
-                        {%- for period, course in schedule.items() -%}
-                        {%- for teacher, classmates in course.items() -%}
-                        <div class="tab-pane fade show {% if period == 1 %} active {%- endif -%}"
-                            id="nav-t{{ period }}-card" role="tabpanel">
+                        {%- for period, course in schedule.items() -%} {%- for teacher, classmates in course.items() -%}
+                        <div class="tab-pane fade show {% if period == 1 %} active {%- endif -%}" id="nav-t{{ period }}-card" role="tabpanel">
                             <h5 class="card-header">{{ period }} - {{ teacher }}</h5>
                             <ul class="list-group">
                                 {%- for classmate in classmates %}
@@ -65,8 +56,7 @@
                                 {%- endfor -%}
                             </ul>
                         </div>
-                        {%- endfor -%}
-                        {%- endfor -%}
+                        {%- endfor -%} {%- endfor -%}
                     </div>
                 </div>
             </div>
@@ -81,32 +71,29 @@
         </footer>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
     <script>
-        $(document).ready(function () {
-            $("a").click(function () {
+        $(document).ready(function() {
+            $("a").click(function() {
                 $(".active").removeClass("active");
                 $(this).addClass("active");
                 $("#" + $(this).attr("id") + "-card").addClass("active");
             });
         });
     </script>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146166505-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
-            gtag('config', 'UA-146166505-1');
-        </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146166505-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-146166505-1');
+    </script>
 </body>
 
 </html>

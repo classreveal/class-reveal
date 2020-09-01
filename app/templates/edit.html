@@ -7,8 +7,7 @@
     <meta name="description" content="The easiest way to share schedules and find out who's in your classes!">
     <title>Edit · ClassReveal</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
     <meta name="theme-color" content="#563d7c">
@@ -21,45 +20,35 @@
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand">ClassReveal</h3>
+                <h3 class="masthead-brand"><img src="{{ url_for('static', filename='img/banner.png') }}" height=50></h3>
                 <nav class="nav nav-masthead justify-content-center">
                     <a class="nav-link" href="/">Home</a>
-                    <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a>
-                    {%- if user -%}
+                    <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a> {%- if user -%}
                     <a class="nav-link" href="{{ url_for('view') }}">View</a>
                     <a class="nav-link active" href="{{ url_for('edit') }}">Edit</a>
-                    <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
-                    {%- endif -%}
+                    <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a> {%- endif -%}
                 </nav>
             </div>
         </header>
 
-        <main role="main" class="inner cover">
+        <main role="main" class="inner cover ">
             <h3 class="cover-heading">Edit Schedule</h3>
-            <br>
-            {%- with messages = get_flashed_messages(with_categories=true) -%}
-            {%- if messages -%}
-            {%- for category, message in messages -%}
+            <br> {%- with messages = get_flashed_messages(with_categories=true) -%} {%- if messages -%} {%- for category, message in messages -%}
             <div class="alert alert-{{category}}" role="alert">
                 {{ message }}
             </div>
-            <br>
-            {%- endfor -%}
-            {%- endif -%}
-            {%- endwith -%}
+            <br> {%- endfor -%} {%- endif -%} {%- endwith -%}
             <form method="post">
                 {%- for teacher in schedule.values()-%}
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Period {{ loop.index }}:</span>
                     </div>
-                    <input name="period_{{ loop.index }}" class="form-control typeahead" type="text"
-                        value="{{ teacher }}" autocomplete="off" data-provide="typeahead" required>
+                    <input name="period_{{ loop.index }}" class="form-control typeahead" type="text" value="{{ teacher }}" autocomplete="off" data-provide="typeahead" required>
 
                 </div>
-                <br>
-                {%- endfor -%}
-                <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+                <br> {%- endfor -%}
+                <button type="submit" class="btn btn-lg btn-outline-primary">Submit</button>
                 <br>
                 <br>
             </form>
@@ -72,27 +61,28 @@
         </footer>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/typeahead.js') }}"></script>
 
 
     <script>
-        jQuery.get("{{ url_for('static', filename=districtjson) }}", function (data) {
-            $(".typeahead").typeahead({ source: data });
+        jQuery.get("{{ url_for('static', filename=districtjson) }}", function(data) {
+            $(".typeahead").typeahead({
+                source: data
+            });
         }, 'json');
     </script>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146166505-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
-            gtag('config', 'UA-146166505-1');
-        </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146166505-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-146166505-1');
+    </script>
 </body>
 
 </html>
