@@ -83,8 +83,13 @@
                                 <h5 class="card-header">{{ period }} - {{ teacher }}</h5>
                                 <ul class="list-group" style="border-radius: 0px;">
                                     {%- for classmate in classmates %}
-                                    <li class="list-group-item" style="border-width: 0px!important">{{ classmate.name }}
-                                        ({{ "Virtual" if classmate.virtual == 0 else "Hybrid" }})</li>
+                                    <li class="list-group-item" style="border-width: 0px!important">{{ classmate.name }}&nbsp;
+                                        {%- if classmate.virtual == 0: -%}
+                                        <span class="badge badge-info">Virtual</span>
+                                        {%- else -%}
+                                        <span class="badge badge-danger">Hybrid</span>
+                                        {%- endif -%}
+                                    </li>
                                     {%- endfor -%}
                                 </ul>
                             </div>
@@ -92,8 +97,6 @@
                         </div>
                     </div>
                 </div>
-                <br>
-                <br>
             </main>
         </div>
 
