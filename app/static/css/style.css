@@ -26,10 +26,17 @@ p {
     margin: 0;
     padding-bottom: 1em;
 }
-
+@media (min-width: 1100px)
+    .cover-home {
+        margin-top: 12em!important;
+    }
+}
 @media (min-width: 768px) {
     main:not(.cover-home) {
         margin-top: 5rem!important;
+    }
+    .cover-home {
+        margin-top: 8em;
     }
 }
 
@@ -37,6 +44,10 @@ p {
     main:not(.cover-home) {
         margin-top: 1.5rem!important;
     }
+    .cover-home {
+        margin-top: 3.5em;
+    }
+    
 }
 
 .btn-outline-dark {
@@ -103,9 +114,6 @@ p {
     padding-top: 1.5rem;
 } */
 
-.cover-home {
-    margin-top: 5em;
-}
 
 .cover .btn-lg {
     padding: .75rem 1.25rem;
@@ -153,9 +161,9 @@ p {
     .nav-masthead {
         float: right;
     }
-    .cover-home {
+    /* .cover-home {
         margin-top: 8em;
-    }
+    } */
     .wave-footer {
         /* background: #111a51; */
         display: block;

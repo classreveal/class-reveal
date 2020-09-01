@@ -7,7 +7,8 @@
     <meta name="description" content="The easiest way to share schedules and find out who's in your classes!">
     <title>ClassReveal</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
     <meta name="theme-color" content="#563d7c">
@@ -16,7 +17,8 @@
     <meta property="og:description" content="The easiest way to share schedules and find out who's in your classes!">
     <meta property="og:url" content="https://classreveal.com">
     <meta property="og:title" content="ClassReveal">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+        integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -28,7 +30,10 @@
             <div class="animate-down">
                 <header class="masthead mb-auto p-3">
                     <div class="inner">
-                        <h3 class="masthead-brand"><img src="{{ url_for('static', filename='img/banner.png') }}" height=50></h3>
+                        <a href="/">
+                            <h3 class="masthead-brand"><img src="{{ url_for('static', filename='img/banner.png') }}"
+                                    height=50></h3>
+                        </a>
                         <nav class="nav nav-masthead justify-content-center">
                             <a class="nav-link active" href="/">Home</a>
                             <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a> {%- if user -%}
@@ -47,7 +52,8 @@
 
                     </a> {%- else -%}
                     <a class="btn btn-outline-dark btn-lg" href="{{ url_for('google.login') }}">
-                        <img width="20px" style="margin-bottom: 3px; margin-right: 5px" src="{{ url_for('static', filename='img/google_logo.png') }}"> Login with Google
+                        <img width="20px" style="margin-bottom: 3px; margin-right: 5px"
+                            src="{{ url_for('static', filename='img/google_logo.png') }}"> Login with Google
                     </a>
                     {%- endif -%}
 

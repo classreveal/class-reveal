@@ -24,8 +24,11 @@
 
             <header class="masthead mb-auto">
                 <div class="inner">
-                    <h3 class="masthead-brand"><img src="{{ url_for('static', filename='img/banner.png') }}" height=50>
-                    </h3>
+                    <a href="/">
+                        <h3 class="masthead-brand"><img src="{{ url_for('static', filename='img/banner.png') }}"
+                                height=50>
+                        </h3>
+                    </a>
                     <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="/">Home</a>
                         <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a> {%- if user -%}
@@ -56,21 +59,21 @@
                             program?</label>
                         <select name="virtual" class="form-control" id="virtual" required>
                             {% if virtual == 1 or virtual == 0 %}
-                                {%-if virtual == 0 -%}
-                                    <option value=0 selected>Virtually</option>
-                                {%- else -%}
-                                    <option value=0>Virtually</option>
-                                {%- endif -%}
-
-                                {%-if virtual == 1 -%}
-                                    <option value=1 selected>Hybrid/In-person</option>
-                                {%- else -%}
-                                    <option value=1>Hybrid/In-person</option>
-                                {%- endif -%}
+                            {%-if virtual == 0 -%}
+                            <option value=0 selected>Virtually</option>
                             {%- else -%}
-                                <option selected disabled value="">Select one</option>
-                                <option value=0>Virtually</option>
-                                <option value=1>Hybrid/In-person</option>
+                            <option value=0>Virtually</option>
+                            {%- endif -%}
+
+                            {%-if virtual == 1 -%}
+                            <option value=1 selected>Hybrid/In-person</option>
+                            {%- else -%}
+                            <option value=1>Hybrid/In-person</option>
+                            {%- endif -%}
+                            {%- else -%}
+                            <option selected disabled value="">Select one</option>
+                            <option value=0>Virtually</option>
+                            <option value=1>Hybrid/In-person</option>
                             {%- endif -%}
 
 
