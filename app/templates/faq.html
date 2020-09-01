@@ -50,7 +50,7 @@
                     </a>
                     <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="/">Home</a>
-                        <a class="nav-link active" href="{{ url_for('faq') }}">FAQ</a> {%- if user -%}
+                        <a class="nav-link active" href="{{ url_for('faq') }}">FAQ</a> {%- if current_user.is_authenticated -%}
                         <a class="nav-link" href="{{ url_for('view') }}">View</a>
                         <a class="nav-link" href="{{ url_for('edit') }}">Edit</a>
                         <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a> {%- endif -%}
@@ -129,10 +129,8 @@
                             data-parent="#accordionEx">
                             <div class="card-body">
                                 Class Reveal was designed and constructed to be used to find friends and classmates in
-                                <b>your</b> classes. In order to ensure that it is being used for this purpose, and to
-                                mitigate the strain of simultaneous database queries we have implemented rate limiting
-                                to prevent misuse of the platform. If you have
-                                been rate limited please wait for the restriction to expire.
+                                <b>your</b> classes. In order to ensure that it is being used for this purpose, we have implemented rate limiting
+                                to prevent misuse of the platform. If you have been rate limited please wait for the restriction to expire.
                             </div>
                         </div>
                     </div>
@@ -149,10 +147,7 @@
                             data-parent="#accordionEx">
                             <div class="card-body">
                                 For more information or questions contact us at <a
-                                    href="mailto:team@classreveal.com">team@classreveal.com</a>. For complaints select
-                                the button below.
-                                <button type="button" class="mt-3 btn btn-block btn-outline-warning"
-                                    onclick="alert('👌');">Complain</button>
+                                    href="mailto:team@classreveal.com">team@classreveal.com</a>.
                             </div>
                         </div>
                     </div>

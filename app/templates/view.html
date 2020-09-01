@@ -45,16 +45,16 @@
                     </a>
                     <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="/">Home</a>
-                        <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a> {%- if user -%}
-                        <a class="nav-link view active" href="{{ url_for('view') }}">View</a>
+                        <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a>
+                        <a class="nav-link active" href="{{ url_for('view') }}">View</a>
                         <a class="nav-link" href="{{ url_for('edit') }}">Edit</a>
-                        <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a> {%- endif -%}
+                        <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
                     </nav>
                 </div>
             </header>
 
             <main role="main" class="inner cover col-md-8 col-ms-12 mx-auto">
-                <h3 class="cover-heading">{{ name }}'s Schedule</h3>
+                <h3 class="cover-heading">{{ current_user.name }}'s Schedule</h3>
                 <br>
                 <div class="dropdown">
                     <button class="btn btn-block btn-warning dropdown-toggle" style="border-radius:0px" type="button"
@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="card" style="color: black; ">
+                <div class="card" style="color: black;">
                     <div class="card-body p-0">
                         <div class="tab-content">
                             {%- for period, course in schedule.items() -%}
@@ -79,8 +79,8 @@
                                 <h5 class="card-header">{{ period }} - {{ teacher }}</h5>
                                 <ul class="list-group" style="border-radius: 0px;">
                                     {%- for classmate in classmates %}
-                                    <li class="list-group-item" style="border-width: 0px!important">{{ classmate[0] }}
-                                        ({{'Virtual' if classmate[1]==0 else 'Hybrid/In-person' }})</li>
+                                    <li class="list-group-item" style="border-width: 0px!important">{{ classmate.name }}
+                                        ({{ "Virtual" if classmate.virtual == 0 else "Hybrid" }})</li>
                                     {%- endfor -%}
                                 </ul>
                             </div>
@@ -123,10 +123,9 @@
     <script>
         $(document).ready(function () {
             $("a").click(function () {
-                $(".active").removeClass("active");
+                $("div.active, a.dropdown-item").removeClass("active");
                 $(this).addClass("active");
                 $("#" + $(this).attr("id") + "-card").addClass("active");
-                $(".view").addClass("active");
             });
         });
     </script>

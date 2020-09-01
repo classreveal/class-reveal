@@ -20,7 +20,7 @@ class Schedule(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
     user = db.relationship(User)
- 
+
     period_1 = db.Column(db.String(256))
     period_2 = db.Column(db.String(256))
     period_3 = db.Column(db.String(256))

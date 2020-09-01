@@ -29,7 +29,7 @@
                     </a>
                     <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="/">Home</a>
-                        <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a> {%- if user -%}
+                        <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a> {%- if current_user.is_authenticated -%}
                         <a class="nav-link" href="{{ url_for('view') }}">View</a>
                         <a class="nav-link" href="{{ url_for('edit') }}">Edit</a>
                         <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a> {%- endif -%}
@@ -43,7 +43,6 @@
         </div>
 
         <footer class="mastfoot mt-auto">
-
             <div class="wave-container">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 280">
                     <path fill="#ffc107" fill-opacity="1"
@@ -55,7 +54,6 @@
             <div class="inner email-footer">
                 <p class="lead">Email questions to: <a href="mailto:team@classreveal.com">team@classreveal.com</a>.
                 </p>
-
             </div>
         </footer>
     </div>
