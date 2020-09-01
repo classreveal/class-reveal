@@ -56,6 +56,10 @@
             <main role="main" class="inner cover col-md-8 col-ms-12 mx-auto">
                 <h3 class="cover-heading">{{ current_user.name }}'s Schedule</h3>
                 <br>
+                <p class="lead">Share your schedule with friends using:
+                    <code><a href="{{ url_for('share', provider_user_id=current_user.oauth.provider_user_id) }}">https://classreveal.com{{ url_for("share", provider_user_id=current_user.oauth.provider_user_id) }}</a></code>
+                </p>
+                <br>
                 <div class="dropdown">
                     <button class="btn btn-block btn-warning dropdown-toggle" style="border-radius:0px" type="button"
                         data-toggle="dropdown">
@@ -90,9 +94,6 @@
                 </div>
                 <br>
                 <br>
-                <h2 class="lead">Share your schedule with friends using:
-                    <code><a href="{{ url_for('share', provider_user_id=current_user.oauth.provider_user_id) }}">https://classreveal.com{{ url_for("share", provider_user_id=current_user.oauth.provider_user_id) }}</a></code>
-                </h2>
             </main>
         </div>
 
