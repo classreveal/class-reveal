@@ -68,6 +68,12 @@ def faq():
 def edit():
     if not current_user.is_authenticated:
         return redirect(url_for("home"))
+
+    if current_user.district == 0:
+        flash('Instructions: Enter teacher names corresponding to each period in your list schedule. If a class has more than one teacher, enter the name of the first/primary teacher. Do not enter lab periods. For study hall periods enter either "North - Study Hall" or "South - Study Hall".', info)
+    else:
+        flash('Instructions: Enter teacher names corresponding to each period in your schedule. If a class has more than one teacher, enter the name of the first/primary teacher. Do not enter lab periods. For lunch periods enter "Lunch".', "info")
+
     if request.method == "POST":
         for period, teacher in request.form.to_dict().items():
             if period == "virtual":
