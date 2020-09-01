@@ -70,7 +70,7 @@ def edit():
         return redirect(url_for("home"))
 
     if current_user.district == 0:
-        flash('Instructions: Enter teacher names corresponding to each period in your list schedule. If a class has more than one teacher, enter the name of the first/primary teacher. Do not enter lab periods. For study hall periods enter either "North - Study Hall" or "South - Study Hall".', info)
+        flash('Instructions: Enter teacher names corresponding to each period in your list schedule. If a class has more than one teacher, enter the name of the first/primary teacher. Do not enter lab periods. For study hall periods enter either "North - Study Hall" or "South - Study Hall".', "info")
     else:
         flash('Instructions: Enter teacher names corresponding to each period in your schedule. If a class has more than one teacher, enter the name of the first/primary teacher. Do not enter lab periods. For lunch periods enter "Lunch".', "info")
 
