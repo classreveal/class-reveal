@@ -37,11 +37,6 @@ p {
     font-weight: bold;
 }
 
-.animate-down {
-    animation: animateText 1000ms cubic-bezier(0.23, 1, 0.32, 1);
-    /* margin: 0 6em; */
-}
-
 .nav-masthead .nav-link {
     padding: .25rem 0;
     font-weight: 700;
@@ -100,6 +95,18 @@ p {
     overflow: hidden;
 }
 
+.mastfoot {
+    /* background: #111a51; */
+    display: block;
+    transform-origin: bottom;
+    animation: animateWave 300ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.animate-down {
+    animation: animateText 300ms cubic-bezier(0.23, 1, 0.32, 1);
+    /* margin: 0 6em; */
+}
+
 @media (min-width: 48em) {
     .masthead-brand {
         float: left;
@@ -109,6 +116,16 @@ p {
     }
     .cover-home {
         margin-top: 8em;
+    }
+    .mastfoot {
+        /* background: #111a51; */
+        display: block;
+        transform-origin: bottom;
+        animation: animateWave 1000ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+    .animate-down {
+        animation: animateText 1000ms cubic-bezier(0.23, 1, 0.32, 1);
+        /* margin: 0 6em; */
     }
 }
 
@@ -132,11 +149,4 @@ p {
 
 .email-footer {
     background-color: #FFD205;
-}
-
-.mastfoot {
-    /* background: #111a51; */
-    display: block;
-    transform-origin: bottom;
-    animation: animateWave 1000ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
