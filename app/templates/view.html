@@ -7,8 +7,7 @@
     <meta name="description" content="The easiest way to share schedules and find out who's in your classes!">
     <title>View · ClassReveal</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
     <meta name="theme-color" content="#563d7c">
@@ -19,13 +18,13 @@
             background-color: #ffeebb !important;
             color: black !important;
         }
-
+        
         .dropdown-item.active,
         .dropdown-item:active {
             background-color: #ffd24b !important;
             color: black !important;
         }
-
+        
         .dropdown-menu {
             width: 100% !important;
         }
@@ -54,25 +53,21 @@
                 <h3 class="cover-heading">{{ name }}'s Schedule</h3>
                 <br>
                 <div class="dropdown">
-                    <button class="btn btn-block btn-warning dropdown-toggle" style="border-radius:0px" type="button"
-                        data-toggle="dropdown">
+                    <button class="btn btn-block btn-warning dropdown-toggle" style="border-radius:0px" type="button" data-toggle="dropdown">
                         Select Period
                     </button>
                     <div class="dropdown-menu">
                         {%- for period, course in schedule.items() -%} {%- for teacher in course.keys() -%}
-                        <a class="dropdown-item {% if period == 1 %} active {%- endif -%}"
-                            id="nav-t{{ period }}">{{ period }}
+                        <a class="dropdown-item {% if period == 1 %} active {%- endif -%}" id="nav-t{{ period }}">{{ period }}
                             - {{ teacher }}</a> {%- endfor -%} {%- endfor -%}
                     </div>
                 </div>
                 <br>
                 <div class="card" style="color: black; ">
-                    <div class="card-body p-0" >
+                    <div class="card-body p-0">
                         <div class="tab-content">
-                            {%- for period, course in schedule.items() -%}
-                            {%- for teacher, classmates in course.items() -%}
-                            <div class="tab-pane fade show {% if period == 1 %} active {%- endif -%}"
-                                id="nav-t{{ period }}-card" role="tabpanel">
+                            {%- for period, course in schedule.items() -%} {%- for teacher, classmates in course.items() -%}
+                            <div class="tab-pane fade show {% if period == 1 %} active {%- endif -%}" id="nav-t{{ period }}-card" role="tabpanel">
                                 <h5 class="card-header">{{ period }} - {{ teacher }}</h5>
                                 <ul class="list-group" style="border-radius: 0px;">
                                     {%- for classmate in classmates %}
@@ -92,7 +87,7 @@
         <footer class="mastfoot mt-auto">
 
             <div class="wave-container">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 280">
                     <path fill="#ffc107" fill-opacity="1"
                         d="M0,192L48,186.7C96,181,192,171,288,181.3C384,192,480,224,576,202.7C672,181,768,107,864,85.3C960,64,1056,96,1152,106.7C1248,117,1344,107,1392,101.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
                     </path>
@@ -106,19 +101,13 @@
         </footer>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
     <script>
-        $(document).ready(function () {
-            $("a").click(function () {
+        $(document).ready(function() {
+            $("a").click(function() {
                 $(".active").removeClass("active");
                 $(this).addClass("active");
                 $("#" + $(this).attr("id") + "-card").addClass("active");
