@@ -66,17 +66,17 @@
                     </div>
                 </div>
                 <br>
-                <div class="card" style="color: black">
-                    <div class="card-body">
+                <div class="card" style="color: black; ">
+                    <div class="card-body p-0" >
                         <div class="tab-content">
                             {%- for period, course in schedule.items() -%}
                             {%- for teacher, classmates in course.items() -%}
                             <div class="tab-pane fade show {% if period == 1 %} active {%- endif -%}"
                                 id="nav-t{{ period }}-card" role="tabpanel">
                                 <h5 class="card-header">{{ period }} - {{ teacher }}</h5>
-                                <ul class="list-group">
+                                <ul class="list-group" style="border-radius: 0px;">
                                     {%- for classmate in classmates %}
-                                    <li class="list-group-item">{{ classmate }}</li>
+                                    <li class="list-group-item" style="border-width: 0px!important">{{ classmate }}</li>
                                     {%- endfor -%}
                                 </ul>
                             </div>
