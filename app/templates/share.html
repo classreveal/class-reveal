@@ -55,7 +55,7 @@
                             <li class="list-group-item" style="border-left-width:0px!important; border-right-width:0px!important">
                                Period {{loop.index}}: {{ teacher }}&nbsp;
                                {%- if myschedule|length == schedule.values()|length -%}
-                                {%- if myschedule[loop.index-1] == teacher -%}
+                                {%- if myschedule[loop.index0] == teacher -%}
                                 <span class="badge badge-success">Shared Class</span>
                                 {%- endif -%}
 

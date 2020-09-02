@@ -115,6 +115,7 @@ def share(provider_user_id):
     if current_user.is_authenticated:
         if current_user.schedule.get():
             myschedule = list(current_user.schedule.get().values())
+
     return render_template(
         "share.html", name=oauth.user.name, schedule=oauth.user.schedule.get(), myschedule=myschedule
     )
@@ -122,7 +123,7 @@ def share(provider_user_id):
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template("error.html", error="4owo4 - Page not found."), 404
+    return render_template("error.html", error="404 - Page not found."), 404
 
 
 @app.errorhandler(429)

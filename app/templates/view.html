@@ -102,11 +102,11 @@
                                 <ul class="list-group" style="border-radius: 0px;">
                                     {%- for classmate in classmates %}
                                     <a class="classmatecommonlinks" data-toggle="collapse"
-                                        href="#id{{period}}{{classmate.oauth.provider_user_id}}" role="button"
+                                        href="#id{{period}}{{classmate.id}}" role="button"
                                         aria-expanded="false" aria-controls="collapseExample">
                                         <li class="list-group-item" style="border-width: 0px!important"><span
                                                 class="classmatename">{{ classmate.name }}</span>&nbsp;
-                                            {%- if classmate.virtual == 0: -%}
+                                            {%- if classmate.virtual == 0 -%}
                                             <span class="badge badge-info">Virtual</span>
                                             {%- else -%}
                                             <span class="badge badge-danger">Hybrid</span>
@@ -114,27 +114,25 @@
 
                                         </li>
                                     </a>
-                                    <div class="collapse" id="id{{period}}{{classmate.oauth.provider_user_id}}">
+
+                                    <div class="collapse" id="id{{period}}{{classmate.id}}">
                                         <div class="card card-body mx-2 mb-2 mt-0 p-0"
                                             style="border-radius: 0px;border-bottom-width:0px!important; ">
                                             <p class="card-header"
                                                 style="background-color: #ffd24b70; border-radius: 0px">Common Classes
-                                                with {{classmate.name}}</hp>
+                                                with {{classmate.name}}</p>
 
                                             <ul class="list-group"
                                                 style="font-size: 0.9rem; border-radius: 0px;border-left-width:0px!important;border-left-width:0px!important;border-top-width:0px!important">
-                                                {%- for item in classmate.schedule.get().values() %}
+                                                {%- for teacher in classmate.schedule.get().values() -%}
+                                                {%- if teacher|lower == (current_user.schedule.get().values()|list)[loop.index0]|lower -%}
 
-                                                {%- if item==((schedule.values()|list)[loop.index-1].keys()|list)[0] -%}
                                                 <li class="list-group-item"
                                                     style="border-left-width:0px!important;border-right-width:0px!important">
-                                                    Period {{loop.index}}: {{ item }}&nbsp;
+                                                    Period {{loop.index}}: {{ teacher }}&nbsp;
                                                 </li>
                                                 {%- endif -%}
-
                                                 {%- endfor -%}
-
-
                                             </ul>
                                         </div>
                                     </div>
