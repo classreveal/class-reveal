@@ -29,6 +29,20 @@
         .dropdown-menu {
             width: 100% !important;
         }
+
+        a.classmatecommonlinks {
+            text-decoration: none;
+        }
+
+        .classmatecommonlinks .classmatename {
+            color: black;
+            text-decoration: none;
+        }
+
+        .classmatecommonlinks:hover .classmatename {
+            color: #383838ec;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -56,9 +70,13 @@
             <main role="main" class="inner cover col-md-8 col-ms-12 mx-auto">
                 <h3 class="cover-heading">{{ current_user.name }}'s Schedule</h3>
                 <br>
-                <p class="lead">Share your schedule with friends using:
+                <div class="alert alert-info" role="alert">
+                    Share your schedule with friends using:
                     <code><a href="{{ url_for('share', provider_user_id=current_user.oauth.provider_user_id) }}">https://classreveal.com{{ url_for("share", provider_user_id=current_user.oauth.provider_user_id) }}</a></code>
-                </p>
+                </div>
+                <div class="alert alert-info" role="alert">
+                    Click on classmates' names to reveal common classes/periods.
+                </div>
                 <br>
                 <div class="dropdown">
                     <button class="btn btn-block btn-warning dropdown-toggle" style="border-radius:0px" type="button"
@@ -83,13 +101,43 @@
                                 <h5 class="card-header">{{ period }} - {{ teacher }}</h5>
                                 <ul class="list-group" style="border-radius: 0px;">
                                     {%- for classmate in classmates %}
-                                    <li class="list-group-item" style="border-width: 0px!important">{{ classmate.name }}&nbsp;
-                                        {%- if classmate.virtual == 0: -%}
-                                        <span class="badge badge-info">Virtual</span>
-                                        {%- else -%}
-                                        <span class="badge badge-danger">Hybrid</span>
-                                        {%- endif -%}
-                                    </li>
+                                    <a class="classmatecommonlinks" data-toggle="collapse"
+                                        href="#id{{period}}{{classmate.oauth.provider_user_id}}" role="button"
+                                        aria-expanded="false" aria-controls="collapseExample">
+                                        <li class="list-group-item" style="border-width: 0px!important"><span
+                                                class="classmatename">{{ classmate.name }}</span>&nbsp;
+                                            {%- if classmate.virtual == 0: -%}
+                                            <span class="badge badge-info">Virtual</span>
+                                            {%- else -%}
+                                            <span class="badge badge-danger">Hybrid</span>
+                                            {%- endif -%}
+
+                                        </li>
+                                    </a>
+                                    <div class="collapse" id="id{{period}}{{classmate.oauth.provider_user_id}}">
+                                        <div class="card card-body mx-2 mb-2 mt-0 p-0"
+                                            style="border-radius: 0px;border-bottom-width:0px!important; ">
+                                            <p class="card-header"
+                                                style="background-color: #ffd24b70; border-radius: 0px">Common Classes
+                                                with {{classmate.name}}</hp>
+
+                                            <ul class="list-group"
+                                                style="font-size: 0.9rem; border-radius: 0px;border-left-width:0px!important;border-left-width:0px!important;border-top-width:0px!important">
+                                                {%- for item in classmate.schedule.get().values() %}
+
+                                                {%- if item==((schedule.values()|list)[loop.index-1].keys()|list)[0] -%}
+                                                <li class="list-group-item"
+                                                    style="border-left-width:0px!important;border-right-width:0px!important">
+                                                    Period {{loop.index}}: {{ item }}&nbsp;
+                                                </li>
+                                                {%- endif -%}
+
+                                                {%- endfor -%}
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
                                     {%- endfor -%}
                                 </ul>
                             </div>
@@ -104,8 +152,10 @@
 
             <div class="wave-container">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 280">
-                    <path fill="#ffc107" fill-opacity="1" d="M0,224L48,224C96,224,192,224,288,234.7C384,245,480,267,576,240C672,213,768,139,864,117.3C960,96,1056,128,1152,154.7C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-                  </svg>
+                    <path fill="#ffc107" fill-opacity="1"
+                        d="M0,224L48,224C96,224,192,224,288,234.7C384,245,480,267,576,240C672,213,768,139,864,117.3C960,96,1056,128,1152,154.7C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+                    </path>
+                </svg>
             </div>
             <div class="inner email-footer">
                 <p class="lead">Email questions to: <a href="mailto:team@classreveal.com">team@classreveal.com</a>.
@@ -126,7 +176,7 @@
 
     <script>
         $(document).ready(function () {
-            $("a").click(function () {
+            $("a.dropdown-item").click(function () {
                 $("div.active, a.dropdown-item").removeClass("active");
                 $(this).addClass("active");
                 $("#" + $(this).attr("id") + "-card").addClass("active");

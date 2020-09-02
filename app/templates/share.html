@@ -42,15 +42,17 @@
                 </div>
             </header>
 
-            <main role="main" class="inner cover col-md-8 col-sm-12 mx-auto" style="margin-top:8rem!important; ">
-
+            <main role="main" class="inner cover col-md-8 col-sm-12 mx-auto" >
+                <div class="alert alert-info" role="alert">
+                    Green "Shared Class" tags appear next to classes you share with {{name}}.
+                </div>
                 <div class="card " style="color: black;border-bottom-width:0px!important">
                     <div class="card-body p-0">
                         <h5 class="card-header">{{ name }}'s Schedule</h5>
                         <ul class="list-group" style="border-radius: 0px;">
                             {%- for teacher in schedule.values() -%}
 
-                            <li class="list-group-item">
+                            <li class="list-group-item" style="border-left-width:0px!important; border-right-width:0px!important">
                                Period {{loop.index}}: {{ teacher }}&nbsp;
                                {%- if myschedule|length == schedule.values()|length -%}
                                 {%- if myschedule[loop.index-1] == teacher -%}

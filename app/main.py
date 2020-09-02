@@ -52,6 +52,7 @@ def view():
                 )
             }
 
+
         return render_template("view.html", schedule=classmates)
     else:
         return redirect(url_for("home"))
