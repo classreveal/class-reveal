@@ -42,25 +42,31 @@
                 </div>
             </header>
 
-            <main role="main" class="inner cover" style="margin-top:8rem!important">
-              <h3 class="cover-heading">{{ name }}'s Schedule</h3>
-              <br>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Period</th>
-                    <th scope="col">Teacher</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {%- for teacher in schedule.values() -%}
-                  <tr>
-                    <th scope="row">{{ loop.index }}</th>
-                    <td>{{ teacher }}</td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+            <main role="main" class="inner cover col-md-8 col-sm-12 mx-auto" style="margin-top:8rem!important; ">
+
+                <div class="card " style="color: black;border-bottom-width:0px!important">
+                    <div class="card-body p-0">
+                        <h5 class="card-header">{{ name }}'s Schedule</h5>
+                        <ul class="list-group" style="border-radius: 0px;">
+                            {%- for teacher in schedule.values() -%}
+
+                            <li class="list-group-item">
+                               Period {{loop.index}}: {{ teacher }}&nbsp;
+                               {%- if myschedule|length == schedule.values()|length -%}
+                                {%- if myschedule[loop.index-1] == teacher -%}
+                                <span class="badge badge-success">Shared Class</span>
+                                {%- endif -%}
+
+                                {%- endif -%}
+
+                            </li>
+
+                            {%- endfor -%}
+
+                        </ul>
+
+                    </div>
+                </div>
             </main>
         </div>
 

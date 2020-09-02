@@ -109,15 +109,19 @@ def edit():
 @app.route("/share/<provider_user_id>")
 def share(provider_user_id):
     oauth = OAuth.query.filter_by(provider_user_id=provider_user_id).first_or_404()
+    myschedule = []
 
+    if current_user.is_authenticated:
+        if current_user.schedule.get():
+            myschedule = list(current_user.schedule.get().values())
     return render_template(
-        "share.html", name=oauth.user.name, schedule=oauth.user.schedule.get()
+        "share.html", name=oauth.user.name, schedule=oauth.user.schedule.get(), myschedule=myschedule
     )
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template("error.html", error="404 - Page not found."), 404
+    return render_template("error.html", error="4owo4 - Page not found."), 404
 
 
 @app.errorhandler(429)
