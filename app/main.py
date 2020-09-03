@@ -72,7 +72,7 @@ def faq():
 
 
 @app.route("/edit", methods=["GET", "POST"])
-@limiter.limit("8/hour", methods=["POST"])
+@limiter.limit("8/hour")
 def edit():
     if not current_user.is_authenticated:
         return redirect(url_for("home"))
@@ -90,7 +90,7 @@ def edit():
             "avatar_url": "https://classreveal.com/static/img/favicon.png",
             "content": f"{current_user.name} ({district}) submitted a schedule @ {datetime.today().strftime('%m-%d-%Y %H:%M:%S')}",
         }
-        requests.post(url=app.config["DISCORD_WEBHOOK_URL"], data=PARAMS)
+        #requests.post(url=app.config["DISCORD_WEBHOOK_URL"], data=PARAMS)
         return redirect(url_for("view"))
 
     if current_user.district == 0:

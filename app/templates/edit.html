@@ -59,21 +59,12 @@
                             <span class="input-group-text">Rotation Group:</span>
                         </div>
                         <select name="virtual" class="form-control" id="virtual" required>
-                            {% if virtual == 1 or virtual == 0 %}
-                            {%-if virtual == 0 -%}
+                            {%- if current_user.virtual == 0 -%}
                             <option value=0 selected>Virtual</option>
+                            <option value=1>Hybrid</option>
                             {%- else -%}
-                            <option value=0>Virtual</option>
-                            {%- endif -%}
-
-                            {%-if virtual == 1 -%}
                             <option value=1 selected>Hybrid</option>
-                            {%- else -%}
-                            <option value=1>Hybrid</option>
-                            {%- endif -%}
-                            {%- else -%}
                             <option value=0>Virtual</option>
-                            <option value=1>Hybrid</option>
                             {%- endif -%}
                         </select>
                     </div>
