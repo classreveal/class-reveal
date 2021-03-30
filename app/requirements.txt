@@ -12,7 +12,7 @@ Flask-Login==0.5.0
 Flask-SQLAlchemy==2.4.3
 idna==2.10
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 limits==1.5.1
 MarkupSafe==1.1.1
 oauthlib==3.1.0
