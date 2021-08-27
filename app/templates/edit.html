@@ -55,24 +55,10 @@
 
                 <form method="post">
                     <div class="input-group mb-4">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Rotation Group:</span>
-                        </div>
-                        <select name="virtual" class="form-control" id="virtual" required>
-                            {%- if current_user.virtual == 0 -%}
-                            <option value=0 selected>Virtual</option>
-                            <option value=1>Hybrid</option>
-                            {%- else -%}
-                            <option value=1 selected>Hybrid</option>
-                            <option value=0>Virtual</option>
-                            {%- endif -%}
-                        </select>
-                    </div>
-
                     {%- for teacher in current_user.schedule.get().values()-%}
                     <div class="input-group mb-4">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Period {{ loop.index }}:</span>
+				<span class="input-group-text">Period {{ loop.index }}:</span>
                         </div>
                         <input name="period_{{ loop.index }}" class="form-control typeahead" type="text"
                             value="{{ teacher }}" autocomplete="off" data-provide="typeahead" required>

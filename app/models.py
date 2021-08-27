@@ -10,8 +10,6 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(256), unique=True)
     name = db.Column(db.String(256))
     district = db.Column(db.Integer)
-    # 0 - virtual, 1 - hybrid
-    virtual = db.Column(db.Integer)
     schedule = db.relationship("Schedule", uselist=False)
     oauth = db.relationship("OAuth", uselist=False)
 
@@ -30,6 +28,7 @@ class Schedule(db.Model):
     period_7 = db.Column(db.String(256))
     period_8 = db.Column(db.String(256))
     period_9 = db.Column(db.String(256))
+    
 
     def get(self):
         schedule = {

@@ -105,14 +105,8 @@
                                         href="#id{{period}}{{classmate.id}}" role="button"
                                         aria-expanded="false" aria-controls="collapseExample">
                                         <li class="list-group-item" style="border-width: 0px!important"><span
-                                                class="classmatename">{{ classmate.name }}</span>&nbsp;
-                                            {%- if classmate.virtual == 0 -%}
-                                            <span class="badge badge-info">Virtual</span>
-                                            {%- else -%}
-                                            <span class="badge badge-danger">Hybrid</span>
-                                            {%- endif -%}
-
-                                        </li>
+                                                 class="classmatename">{{ classmate.name }}</span>&nbsp;
+					</li>
                                     </a>
 
                                     <div class="collapse" id="id{{period}}{{classmate.id}}">

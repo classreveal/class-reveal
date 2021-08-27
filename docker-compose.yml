@@ -4,7 +4,7 @@ services:
     build: ./
     restart: always
     env_file: app/.env
-    ports: [127.0.0.1:8000:80]
+    ports: [80:80]
     depends_on:
       - db
     networks:

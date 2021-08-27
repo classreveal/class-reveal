@@ -79,9 +79,6 @@ def edit():
 
     if request.method == "POST":
         for period, teacher in request.form.to_dict().items():
-            if period == "virtual":
-                setattr(current_user, "virtual", 0 if int(teacher) == 0 else 1)
-                continue
             setattr(current_user.schedule, period, teacher)
         db.session.commit()
         district = "WW-P" if current_user.district == 0 else "BR"
