@@ -50,7 +50,8 @@
                     </a>
                     <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="/">Home</a>
-                        <a class="nav-link active" href="{{ url_for('faq') }}">FAQ</a> {%- if current_user.is_authenticated -%}
+                        <a class="nav-link active" href="{{ url_for('faq') }}">FAQ</a> {%- if
+                        current_user.is_authenticated -%}
                         <a class="nav-link" href="{{ url_for('view') }}">View</a>
                         <a class="nav-link" href="{{ url_for('edit') }}">Edit</a>
                         <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a> {%- endif -%}
@@ -110,9 +111,10 @@
                             data-parent="#accordionEx">
                             <div class="card-body">
                                 Class Reveal was originally created by Elizabeth Petrov and Xavier Lu in 2016-2017. It
-                                has been maintained in the past by Bharath Hegde, Peter Wu, Spencer Hua, Rahul Shah and Serena
-                                Chang. This years site has been renovated and constructed by Daniel Wang, Akash
-                                Bobba, Aman Wadhwa, Jivi Irivichetty, and Krish Thawani.
+                                has been maintained in the past by Bharath Hegde, Peter Wu, Spencer Hua, Rahul Shah,
+                                Serena
+                                Chang, Akash Bobba, and Daniel Wang. This years site has been renovated and constructed
+                                by Jivi Irivichetty and Krish Thawani.
                             </div>
                         </div>
                     </div>
@@ -129,8 +131,10 @@
                             data-parent="#accordionEx">
                             <div class="card-body">
                                 Class Reveal was designed and constructed to be used to find friends and classmates in
-                                <b>your</b> classes. In order to ensure that it is being used for this purpose, we have implemented rate limiting
-                                to prevent misuse of the platform. If you have been rate limited please wait for the restriction to expire.
+                                <b>your</b> classes. In order to ensure that it is being used for this purpose, we have
+                                implemented rate limiting
+                                to prevent misuse of the platform. If you have been rate limited please wait for the
+                                restriction to expire.
                             </div>
                         </div>
                     </div>
