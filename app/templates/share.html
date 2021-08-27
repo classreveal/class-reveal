@@ -34,6 +34,7 @@
                     </a>
                     <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link" href="https://discord.gg/ydS4vTF">HSS Discord Server</a>
                         <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a> {%- if current_user.is_authenticated -%}
                         <a class="nav-link" href="{{ url_for('view') }}">View</a>
                         <a class="nav-link" href="{{ url_for('edit') }}">Edit</a>
@@ -42,7 +43,7 @@
                 </div>
             </header>
 
-            <main role="main" class="inner cover col-md-8 col-sm-12 mx-auto" >
+            <main role="main" class="inner cover col-md-8 col-sm-12 mx-auto">
                 <div class="alert alert-info" role="alert">
                     Green "Shared Class" tags appear next to classes you share with {{name}}.
                 </div>
@@ -52,9 +53,10 @@
                         <ul class="list-group" style="border-radius: 0px;">
                             {%- for teacher in schedule.values() -%}
 
-                            <li class="list-group-item" style="border-left-width:0px!important; border-right-width:0px!important">
-                               Period {{loop.index}}: {{ teacher }}&nbsp;
-                               {%- if myschedule|length == schedule.values()|length -%}
+                            <li class="list-group-item"
+                                style="border-left-width:0px!important; border-right-width:0px!important">
+                                Period {{loop.index}}: {{ teacher }}&nbsp;
+                                {%- if myschedule|length == schedule.values()|length -%}
                                 {%- if myschedule[loop.index0] == teacher -%}
                                 <span class="badge badge-success">Shared Class</span>
                                 {%- endif -%}

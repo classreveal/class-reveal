@@ -31,6 +31,7 @@
                     </a>
                     <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link" href="https://discord.gg/ydS4vTF">HSS Discord Server</a>
                         <a class="nav-link" href="{{ url_for('faq') }}">FAQ</a>
                         <a class="nav-link" href="{{ url_for('view') }}">View</a>
                         <a class="nav-link active" href="{{ url_for('edit') }}">Edit</a>
@@ -55,21 +56,24 @@
 
                 <form method="post">
                     <div class="input-group mb-4">
-                    {%- for teacher in current_user.schedule.get().values()-%}
-                    <div class="input-group mb-4">
-                        <div class="input-group-prepend">
-				<span class="input-group-text">Period {{ loop.index }}:</span>
-                        </div>
-                        <input name="period_{{ loop.index }}" class="form-control typeahead" type="text"
-                            value="{{ teacher }}" autocomplete="off" data-provide="typeahead" required>
+                        {%- for teacher in current_user.schedule.get().values()-%}
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Period {{ loop.index }}:</span>
+                                <span class="input-group-text">Period Lunch:</span>
+                            </div>
+                            <input name="period_{{ loop.index }}" class="form-control typeahead" type="text"
+                                value="{{ teacher }}" autocomplete="off" data-provide="typeahead" required>
+                            <input name="period_lunch" class="form-control typeahead" type="text" value="{{ teacher }}"
+                                autocomplete="off" data-provide="typeahead" required>
 
-                    </div>
-                    {%- endfor -%}
-                    <button class="btn btn-outline-dark" id="editSubmit">
-                        Save&nbsp;&nbsp;<i class="far fa-save"></i>
-                    </button>
-                    <br>
-                    <br>
+                        </div>
+                        {%- endfor -%}
+                        <button class="btn btn-outline-dark" id="editSubmit">
+                            Save&nbsp;&nbsp;<i class="far fa-save"></i>
+                        </button>
+                        <br>
+                        <br>
                 </form>
             </main>
         </div>
